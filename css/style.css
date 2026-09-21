@@ -249,46 +249,36 @@ section { padding: 5rem 0; }
   margin: 0;
 }
 
-/* Portfolio grid — editorial masonry */
+/* Portfolio grid — real story material, uniform 9:16 cards */
 .portfolio { background: var(--cream-alt); padding: 4rem 0 5rem; }
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-  grid-auto-rows: 160px;
+  grid-template-columns: repeat(4, minmax(0,1fr));
   gap: 1.2rem;
 }
 .portfolio-item {
-  position: relative;
   margin: 0;
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--white);
   border: 1px solid var(--border);
 }
-.span-row-2 { grid-row: span 2; }
-.span-col-2 { grid-column: span 2; }
-.portfolio-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
-.portfolio-item:hover img { transform: scale(1.06); }
+.portfolio-item img,
+.portfolio-item video {
+  width: 100%;
+  aspect-ratio: 9/16;
+  object-fit: cover;
+  display: block;
+  background: var(--brown-dark);
+}
 .portfolio-item figcaption {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  padding: 1.1rem 1.2rem;
-  background: linear-gradient(0deg, rgba(36,26,18,0.85), rgba(36,26,18,0));
-  color: var(--white);
+  padding: 0.8rem 1rem;
   font-family: var(--serif);
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 600;
+  color: var(--brown-dark);
 }
-.portfolio-item figcaption .eyebrow { color: #e8d9c4; margin-bottom: 0.3rem; }
-.portfolio-item-block { background: var(--brown-strong); display: flex; }
-.block-caption {
-  position: static;
-  background: none;
-  margin: auto;
-  padding: 1.5rem;
-  text-align: center;
-}
-.block-caption .eyebrow { color: #f3ddc4; }
+.portfolio-item figcaption .eyebrow { margin-bottom: 0.25rem; }
 
 /* Services grid (legacy card fallback, unused but kept minimal) */
 
@@ -310,20 +300,20 @@ section { padding: 5rem 0; }
 
 /* Reviews */
 .reviews { background: var(--cream-alt); }
-.quote-card {
-  max-width: 640px;
+.testimonial-video {
+  max-width: 320px;
   margin: 2.5rem auto 0;
-  background: var(--brown-dark);
-  color: var(--cream);
-  border-radius: 28px;
-  padding: 2.8rem clamp(1.8rem, 5vw, 3.2rem);
-  text-align: center;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 40px -20px rgba(36, 26, 18, 0.35);
 }
-.quote-card p {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  line-height: 1.5;
-  margin: 0 0 1.6rem;
+.testimonial-video video {
+  width: 100%;
+  aspect-ratio: 9/16;
+  object-fit: cover;
+  display: block;
+  background: var(--brown-dark);
 }
 
 /* CTA */
@@ -390,7 +380,7 @@ section { padding: 5rem 0; }
   .hero { grid-template-columns: minmax(0,1fr); min-height: auto; }
   .hero-media { order: -1; min-height: 46vh; }
   .about-inner, .why-inner { grid-template-columns: minmax(0,1fr); }
-  .portfolio-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .portfolio-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
   .footer-nav { display: none; }
 }
 
@@ -419,10 +409,7 @@ section { padding: 5rem 0; }
 }
 
 @media (max-width: 560px) {
-  .portfolio-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-  .span-row-2, .span-col-2 { grid-row: auto; grid-column: auto; }
-  .portfolio-item { aspect-ratio: 4/5; }
-  .portfolio-item-block { aspect-ratio: auto; padding: 2rem 0; }
+  .portfolio-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .footer-social-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .hero-actions .btn { width: 100%; text-align: center; }
   .fact-strip-inner span:nth-child(2n)::after { display: none; }
