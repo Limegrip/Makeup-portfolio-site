@@ -14,7 +14,13 @@
 
 <header class="site-header" id="top">
   <div class="container header-inner">
-    <a href="#top" class="logo">Anastasia <span>Kurdumova</span></a>
+    <a href="#top" class="logo">
+      <svg class="logo-mark" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2C9 6 8 10 8 13a4 4 0 0 0 8 0c0-3-1-7-4-11Z" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M12 22V13" stroke="currentColor" stroke-width="1.4"/>
+      </svg>
+      Anastasia <span>Kurdumova</span>
+    </a>
 
     <nav class="nav" id="nav">
       <a href="#portfolio">Портфолио</a>
@@ -36,32 +42,30 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-text">
-        <p class="eyebrow">Визажист · Свадебный стилист · Москва</p>
-        <h1>Макияж и стиль,<br> которые остаются<br> в каждом кадре</h1>
-        <p class="hero-desc">Свадебные образы, вечерний и дневной макияж, причёски и укладки.
-          Индивидуальный подход к каждой невесте и клиентке, премиальная косметика,
-          выезд по Москве и области.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Записаться в Telegram</a>
-          <a class="btn btn-ghost" href="#portfolio">Смотреть работы</a>
-        </div>
-      </div>
-      <div class="hero-media">
-        <img src="images/portfolio/hero-real.jpg" alt="Свадебный образ — работа Анастасии Курдюмовой">
+    <div class="hero-text">
+      <p class="eyebrow">Визажист · Свадебный стилист · Москва</p>
+      <h1 class="hero-title">Привет,<br>я <span class="accent-text">Анастасия</span></h1>
+      <p class="hero-desc">Свадебные образы, вечерний и дневной макияж, причёски и укладки.
+        Индивидуальный подход к каждой невесте и клиентке, премиальная косметика,
+        выезд по Москве и области.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Записаться в Telegram</a>
+        <a class="btn btn-ghost" href="#portfolio">Смотреть работы</a>
       </div>
     </div>
-
-    <div class="stats-bar">
-      <div class="container stats-inner">
-        <div class="stat"><strong>ТОП-100</strong><span>свадебных стилистов '26</span></div>
-        <div class="stat"><strong>Москва</strong><span>и область, выезд</span></div>
-        <div class="stat"><strong>Обучение</strong><span>авторские уроки визажа</span></div>
-        <div class="stat"><strong>2025–2026</strong><span>портфолио невест</span></div>
-      </div>
+    <div class="hero-media">
+      <img src="images/portfolio/hero-real.jpg" alt="Свадебный образ — работа Анастасии Курдюмовой">
     </div>
   </section>
+
+  <div class="fact-strip">
+    <div class="container fact-strip-inner">
+      <span>ТОП-100 свадебных стилистов '26</span>
+      <span>Москва и область, выезд</span>
+      <span>Авторские уроки визажа</span>
+      <span>Портфолио невест 2025–2026</span>
+    </div>
+  </div>
 
   <!-- ABOUT -->
   <section class="about" id="about">
@@ -77,30 +81,7 @@
           чувствовать себя собой — только лучшей версией.</p>
         <p>Веду обучение для тех, кто хочет освоить визаж профессионально —
           от базовых техник до подготовки к съёмке и свадьбе.</p>
-        <a class="link-more" href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">Смотреть Instagram →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PORTFOLIO -->
-  <section class="portfolio" id="portfolio">
-    <div class="container">
-      <p class="eyebrow center">Работы</p>
-      <h2 class="section-title center">Портфолио</h2>
-      <p class="section-sub center">Здесь будут размещены реальные фото работ — сейчас показаны примеры
-        категорий. Больше — в Instagram.</p>
-
-      <div class="portfolio-grid">
-        <figure class="portfolio-item"><img src="images/portfolio/wedding-real.jpg" alt="Свадебный образ"><figcaption>Свадебный образ</figcaption></figure>
-        <figure class="portfolio-item"><img src="images/portfolio/evening-real.jpg" alt="Вечерний макияж"><figcaption>Вечерний макияж</figcaption></figure>
-        <figure class="portfolio-item"><img src="images/portfolio/hair-real.jpg" alt="Причёски и укладки"><figcaption>Причёски и укладки</figcaption></figure>
-        <figure class="portfolio-item"><img src="images/portfolio/buns-real.jpg" alt="Пучки"><figcaption>Пучки</figcaption></figure>
-        <figure class="portfolio-item"><img src="images/portfolio/day-real.jpg" alt="Дневной макияж"><figcaption>Дневной макияж</figcaption></figure>
-        <figure class="portfolio-item"><img src="images/portfolio/training.svg" alt="Обучение"><figcaption>Обучение</figcaption></figure>
-      </div>
-
-      <div class="center" style="margin-top:2.5rem;">
-        <a class="btn btn-outline" href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">Все работы в Instagram</a>
+        <a class="link-more" href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">Смотреть Instagram* →</a>
       </div>
     </div>
   </section>
@@ -108,43 +89,92 @@
   <!-- SERVICES -->
   <section class="services" id="services">
     <div class="container">
-      <p class="eyebrow center">Что я делаю</p>
-      <h2 class="section-title center">Услуги</h2>
+      <p class="eyebrow eyebrow-light">Что я делаю</p>
+      <h2 class="section-title section-title-light">Услуги</h2>
+    </div>
 
-      <div class="services-grid">
-        <div class="service-card">
-          <h3>Свадебный образ</h3>
-          <p>Макияж и причёска невесты в день свадьбы, выезд по Москве и области.</p>
-          <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Уточнить в Telegram →</a>
-        </div>
-        <div class="service-card">
-          <h3>Пробный образ</h3>
-          <p>Репетиция свадебного макияжа и причёски заранее, без спешки.</p>
-          <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Уточнить в Telegram →</a>
-        </div>
-        <div class="service-card">
-          <h3>Вечерний макияж</h3>
-          <p>Образ на мероприятие, съёмку или особый вечер.</p>
-          <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Уточнить в Telegram →</a>
-        </div>
-        <div class="service-card">
-          <h3>Дневной макияж</h3>
-          <p>Лёгкий естественный макияж на каждый день или деловую встречу.</p>
-          <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Уточнить в Telegram →</a>
-        </div>
-        <div class="service-card">
-          <h3>Причёски и укладки</h3>
-          <p>Локоны, пучки, плетения — под образ и мероприятие.</p>
-          <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Уточнить в Telegram →</a>
-        </div>
-        <div class="service-card">
-          <h3>Обучение визажу</h3>
-          <p>Индивидуальные уроки — от основ до профессиональных техник.</p>
-          <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Уточнить в Telegram →</a>
-        </div>
-      </div>
+    <div class="services-list">
+      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+        <span class="service-num">01</span>
+        <span class="service-name">Свадебный образ</span>
+        <span class="service-desc">Макияж и причёска невесты в день свадьбы, выезд по Москве и области</span>
+        <span class="service-thumb"><img src="images/portfolio/wedding-real.jpg" alt=""></span>
+      </a>
+      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+        <span class="service-num">02</span>
+        <span class="service-name">Пробный образ</span>
+        <span class="service-desc">Репетиция свадебного макияжа и причёски заранее, без спешки</span>
+        <span class="service-thumb"><img src="images/portfolio/hair-real.jpg" alt=""></span>
+      </a>
+      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+        <span class="service-num">03</span>
+        <span class="service-name">Вечерний макияж</span>
+        <span class="service-desc">Образ на мероприятие, съёмку или особый вечер</span>
+        <span class="service-thumb"><img src="images/portfolio/evening-real.jpg" alt=""></span>
+      </a>
+      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+        <span class="service-num">04</span>
+        <span class="service-name">Дневной макияж</span>
+        <span class="service-desc">Лёгкий естественный макияж на каждый день или деловую встречу</span>
+        <span class="service-thumb"><img src="images/portfolio/day-real.jpg" alt=""></span>
+      </a>
+      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+        <span class="service-num">05</span>
+        <span class="service-name">Причёски и укладки</span>
+        <span class="service-desc">Локоны, пучки, плетения — под образ и мероприятие</span>
+        <span class="service-thumb"><img src="images/portfolio/buns-real.jpg" alt=""></span>
+      </a>
+      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+        <span class="service-num">06</span>
+        <span class="service-name">Обучение визажу</span>
+        <span class="service-desc">Индивидуальные уроки — от основ до профессиональных техник</span>
+        <span class="service-thumb"><img src="images/portfolio/portrait-real.jpg" alt=""></span>
+      </a>
     </div>
   </section>
+
+  <!-- PORTFOLIO -->
+  <section class="portfolio-banner" id="portfolio">
+    <img src="images/portfolio/evening-real.jpg" alt="">
+    <div class="portfolio-banner-overlay">
+      <p class="eyebrow">Работы</p>
+      <h2 class="portfolio-banner-title">Портфолио</h2>
+    </div>
+  </section>
+
+  <div class="portfolio">
+    <div class="container">
+      <div class="portfolio-grid">
+        <figure class="portfolio-item span-row-2">
+          <img src="images/portfolio/wedding-real.jpg" alt="Свадебный образ">
+          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
+        </figure>
+        <figure class="portfolio-item span-col-2">
+          <img src="images/portfolio/evening-real.jpg" alt="Вечерний макияж">
+          <figcaption><span class="eyebrow">Событие</span>Вечерний макияж</figcaption>
+        </figure>
+        <figure class="portfolio-item portfolio-item-block">
+          <figcaption class="block-caption"><span class="eyebrow">Курсы</span>Обучение визажу</figcaption>
+        </figure>
+        <figure class="portfolio-item span-row-2">
+          <img src="images/portfolio/hair-real.jpg" alt="Причёски и укладки">
+          <figcaption><span class="eyebrow">Стиль</span>Причёски и укладки</figcaption>
+        </figure>
+        <figure class="portfolio-item">
+          <img src="images/portfolio/buns-real.jpg" alt="Пучки">
+          <figcaption><span class="eyebrow">Стиль</span>Пучки</figcaption>
+        </figure>
+        <figure class="portfolio-item">
+          <img src="images/portfolio/day-real.jpg" alt="Дневной макияж">
+          <figcaption><span class="eyebrow">Каждый день</span>Дневной макияж</figcaption>
+        </figure>
+      </div>
+
+      <div class="center" style="margin-top:2.5rem;">
+        <a class="btn btn-outline" href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">Все работы в Instagram*</a>
+      </div>
+    </div>
+  </div>
 
   <!-- WHY -->
   <section class="why">
@@ -182,9 +212,10 @@
     <div class="container">
       <p class="eyebrow center">Отзывы</p>
       <h2 class="section-title center">Что говорят клиентки</h2>
-      <p class="section-sub center">Актуальные отзывы — в хайлайте «Отзывы» в Instagram. Здесь появятся выбранные цитаты.</p>
-      <div class="center" style="margin-top:1.5rem;">
-        <a class="btn btn-outline" href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">Читать отзывы в Instagram</a>
+      <div class="quote-card">
+        <p>Актуальные отзывы клиенток собраны в закреплённых историях Instagram* —
+          там же видео процесса и образы «до/после». Здесь скоро появятся выбранные цитаты.</p>
+        <a class="btn btn-ghost-light" href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">Читать отзывы в Instagram*</a>
       </div>
     </div>
   </section>
@@ -204,17 +235,44 @@
 </main>
 
 <footer class="site-footer">
+  <div class="footer-social-strip">
+    <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
+      <span class="eyebrow">Instagram*</span>
+      <img src="images/portfolio/wedding-real.jpg" alt="">
+    </a>
+    <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+      <span class="eyebrow">Telegram</span>
+      <img src="images/portfolio/evening-real.jpg" alt="">
+    </a>
+    <a href="tel:+79776691054">
+      <span class="eyebrow">MAX</span>
+      <img src="images/portfolio/hair-real.jpg" alt="">
+    </a>
+    <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
+      <span class="eyebrow">Работы</span>
+      <img src="images/portfolio/day-real.jpg" alt="">
+    </a>
+  </div>
+
   <div class="container footer-inner">
     <div class="footer-brand">
       <span class="logo">Anastasia <span>Kurdumova</span></span>
       <p>Визажист и свадебный стилист · Москва</p>
     </div>
+    <nav class="footer-nav">
+      <a href="#portfolio">Портфолио</a>
+      <a href="#services">Услуги</a>
+      <a href="#about">Обо мне</a>
+      <a href="#reviews">Отзывы</a>
+    </nav>
     <div class="footer-links">
-      <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">Instagram*</a>
       <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Telegram</a>
       <a href="tel:+79776691054">MAX</a>
     </div>
   </div>
+  <p class="footer-disclaimer">* Instagram принадлежит компании Meta Platforms Inc., признанной экстремистской организацией, деятельность которой запрещена на территории Российской Федерации.</p>
+  <div class="footer-bar">© 2026 Anastasia Kurdumova. Все права защищены.</div>
 </footer>
 
 <script src="js/main.js"></script>
