@@ -58,7 +58,9 @@ section { padding: 5rem 0; }
 
 /* Buttons */
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   padding: 0.85rem 1.7rem;
   border-radius: var(--radius);
   font-weight: 600;
@@ -67,6 +69,7 @@ section { padding: 5rem 0; }
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
   white-space: nowrap;
 }
+.btn-icon { width: 20px; height: 20px; flex-shrink: 0; }
 .btn-primary { background: var(--brown-strong); color: var(--white); }
 .btn-primary:hover { background: var(--brown-dark); }
 .btn-ghost { border-color: var(--brown-dark); color: var(--brown-dark); }
@@ -200,7 +203,8 @@ section { padding: 5rem 0; }
 .about-media img { border-radius: var(--radius); aspect-ratio: 3/4; object-fit: cover; }
 .about-text h2 { font-family: var(--serif); font-size: 2.2rem; margin: 0 0 1rem; }
 .about-text p { color: #5a4a3c; margin-bottom: 1rem; }
-.link-more { color: var(--brown-strong); font-weight: 600; }
+.link-more { display: inline-flex; align-items: center; gap: 0.45rem; color: var(--brown-strong); font-weight: 600; }
+.link-icon { width: 18px; height: 18px; flex-shrink: 0; }
 
 /* Services — editorial dark list, like the reference's banded lineup */
 .services { background: var(--brown-dark); color: var(--cream); padding-bottom: 2rem; }
@@ -358,7 +362,9 @@ section { padding: 5rem 0; }
 .footer-nav { display: flex; gap: 1.4rem; }
 .footer-nav a:hover { color: #cbb79a; }
 .footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { display: inline-flex; align-items: center; gap: 0.5rem; }
 .footer-links a:hover { color: #cbb79a; }
+.footer-icon { width: 16px; height: 16px; flex-shrink: 0; }
 .footer-disclaimer {
   max-width: 1180px;
   margin: 0 auto;
@@ -411,6 +417,6 @@ section { padding: 5rem 0; }
 @media (max-width: 560px) {
   .portfolio-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .footer-social-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .hero-actions .btn { width: 100%; text-align: center; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
   .fact-strip-inner span:nth-child(2n)::after { display: none; }
 }
