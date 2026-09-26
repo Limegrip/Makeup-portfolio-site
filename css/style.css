@@ -430,7 +430,8 @@ section { padding: 5rem 0; }
   color: var(--brown-dark);
 }
 .testimonial-text p { margin: 0 0 1rem; }
-.testimonial-text p::before { content: "«"; }
+/* Кавычки — одна пара на отзыв, а не на каждый абзац: иначе текст пестрит. */
+.testimonial-text p:first-of-type::before { content: "«"; }
 .testimonial-text p:last-of-type::after { content: "»"; }
 .testimonial-text footer {
   font-family: var(--sans);
