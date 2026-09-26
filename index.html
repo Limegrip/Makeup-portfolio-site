@@ -189,7 +189,17 @@
           <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
         </figure>
         <figure class="portfolio-item">
-          <img src="images/portfolio/stories/photo-3.jpg" alt="Невеста с букетом">
+          <!-- Кадры одного человека в одном боксе. Видео — всегда последним в стопке. -->
+          <div class="pi-stack">
+            <img class="is-active" src="images/portfolio/stories/photo-3.jpg" alt="Невеста с букетом">
+            <video controls preload="none" playsinline poster="images/portfolio/stories/wedding-3.jpg">
+              <source src="images/portfolio/stories/wedding-3.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="pi-dots">
+            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" aria-label="Кадр 2, видео"></button>
+          </div>
           <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
         </figure>
         <figure class="portfolio-item">
@@ -201,12 +211,6 @@
         <figure class="portfolio-item">
           <video controls preload="none" playsinline poster="images/portfolio/stories/wedding-2.jpg">
             <source src="images/portfolio/stories/wedding-2.mp4" type="video/mp4">
-          </video>
-          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
-        </figure>
-        <figure class="portfolio-item">
-          <video controls preload="none" playsinline poster="images/portfolio/stories/wedding-3.jpg">
-            <source src="images/portfolio/stories/wedding-3.mp4" type="video/mp4">
           </video>
           <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
         </figure>
