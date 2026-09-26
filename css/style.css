@@ -377,7 +377,8 @@ section { padding: 5rem 0; }
 .reviews { background: var(--cream-alt); }
 .reviews-grid {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 320px minmax(0, 34em);
+  justify-content: center;
   gap: 2.5rem;
   align-items: center;
   margin-top: 2.5rem;
@@ -402,13 +403,15 @@ section { padding: 5rem 0; }
 }
 .testimonial-video {
   max-width: 320px;
-  margin: 0 auto;
+  margin: 2.5rem auto 0;
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid var(--border);
   box-shadow: 0 20px 40px -20px rgba(36, 26, 18, 0.35);
 }
-.testimonial-video video {
+.reviews-grid .testimonial-video { margin: 0 auto; }
+.testimonial-video video,
+.testimonial-video img {
   width: 100%;
   aspect-ratio: 9/16;
   object-fit: cover;
