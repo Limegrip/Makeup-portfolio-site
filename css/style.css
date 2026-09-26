@@ -23,7 +23,10 @@ body {
   background: var(--cream);
   line-height: 1.5;
 }
-img { max-width: 100%; display: block; object-position: var(--pos, 50% 50%); }
+/* height: auto — чтобы атрибуты width/height у <img> (они нужны против скачков
+   вёрстки) не перебивали aspect-ratio из CSS. Блоки, которым нужна реальная
+   высота, задают её сами и выигрывают по специфичности. */
+img { max-width: 100%; height: auto; display: block; object-position: var(--pos, 50% 50%); }
 a { color: inherit; text-decoration: none; }
 .container {
   width: 100%;
