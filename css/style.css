@@ -295,6 +295,40 @@ section { padding: 5rem 0; }
 }
 .portfolio-item figcaption .eyebrow { margin-bottom: 0.25rem; }
 
+/* Карусель внутри карточки: несколько кадров одного человека в одном боксе.
+   Слайды лежат стопкой, поэтому бокс держит высоту сам — отсюда aspect-ratio. */
+.pi-stack { position: relative; aspect-ratio: 9/16; }
+.pi-stack > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.pi-stack > .is-active { opacity: 1; }
+.pi-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 0.7rem 0 0;
+}
+.pi-dots button {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--border);
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+.pi-dots button.is-active { background: var(--brown-strong); }
+@media (prefers-reduced-motion: reduce) {
+  .pi-stack > * { transition: none; }
+}
+
 /* Services grid (legacy card fallback, unused but kept minimal) */
 
 /* Why */
