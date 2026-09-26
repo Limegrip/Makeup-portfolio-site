@@ -129,7 +129,7 @@
     </div>
 
     <div class="services-list">
-      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+      <a class="service-row" href="#portfolio" data-filter="Невесты">
         <span class="service-num">01</span>
         <span class="service-name">Свадебный образ</span>
         <span class="service-desc">Макияж и причёска невесты в день свадьбы, выезд по Москве и области</span>
@@ -141,19 +141,19 @@
         <span class="service-desc">Репетиция свадебного макияжа и причёски заранее, без спешки</span>
         <span class="service-thumb"><img src="images/portfolio/hair-real.jpg" style="--pos:50% 8%" alt=""></span>
       </a>
-      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+      <a class="service-row" href="#portfolio" data-filter="Событие">
         <span class="service-num">03</span>
         <span class="service-name">Вечерний макияж</span>
         <span class="service-desc">Образ на мероприятие, съёмку или особый вечер</span>
         <span class="service-thumb"><img src="images/portfolio/evening-real.jpg" style="--pos:50% 34%" alt=""></span>
       </a>
-      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+      <a class="service-row" href="#portfolio" data-filter="Каждый день">
         <span class="service-num">04</span>
         <span class="service-name">Дневной макияж</span>
         <span class="service-desc">Лёгкий естественный макияж на каждый день или деловую встречу</span>
         <span class="service-thumb"><img src="images/portfolio/day-real.jpg" style="--pos:50% 5%" alt=""></span>
       </a>
-      <a class="service-row" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+      <a class="service-row" href="#portfolio" data-filter="Стиль">
         <span class="service-num">05</span>
         <span class="service-name">Причёски и укладки</span>
         <span class="service-desc">Локоны, пучки, плетения — под образ и мероприятие</span>
@@ -177,6 +177,14 @@
 
   <div class="portfolio">
     <div class="container">
+      <div class="pf-filters" role="group" aria-label="Фильтр работ по услуге">
+        <button type="button" class="is-active" data-filter="all">Все работы</button>
+        <button type="button" data-filter="Невесты">Свадебный образ</button>
+        <button type="button" data-filter="Событие">Вечерний образ</button>
+        <button type="button" data-filter="Каждый день">Дневной макияж</button>
+        <button type="button" data-filter="Стиль">Причёски и укладки</button>
+        <button type="button" data-filter="Съёмка">Backstage</button>
+      </div>
       <div class="portfolio-grid">
         <figure class="portfolio-item">
           <video controls preload="none" playsinline poster="images/portfolio/stories/backstage.jpg">
@@ -185,7 +193,22 @@
           <figcaption><span class="eyebrow">Съёмка</span>Backstage со съёмки</figcaption>
         </figure>
         <figure class="portfolio-item">
-          <img src="images/portfolio/stories/photo-4.jpg" alt="Невеста с букетом, портрет">
+          <div class="pi-stack">
+            <img class="is-active" src="images/portfolio/stories/photo-4.jpg" alt="Невеста с букетом, портрет">
+            <img src="images/portfolio/stories/photo-4c.jpg" alt="Букет невесты крупным планом">
+            <img src="images/portfolio/stories/photo-4d.jpg" alt="Причёска невесты со спины">
+            <img src="images/portfolio/stories/photo-4e.jpg" alt="Невеста через плечо, портрет">
+            <video controls preload="none" playsinline poster="images/portfolio/stories/wedding-6.jpg">
+              <source src="images/portfolio/stories/wedding-6.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="pi-dots">
+            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" aria-label="Кадр 2"></button>
+            <button type="button" aria-label="Кадр 3"></button>
+            <button type="button" aria-label="Кадр 4"></button>
+            <button type="button" aria-label="Кадр 5, видео"></button>
+          </div>
           <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
         </figure>
         <figure class="portfolio-item">
@@ -227,6 +250,12 @@
           <figcaption><span class="eyebrow">Невесты</span>Образ с короткой вуалью</figcaption>
         </figure>
         <figure class="portfolio-item">
+          <video controls preload="none" playsinline poster="images/portfolio/stories/wedding-7.jpg">
+            <source src="images/portfolio/stories/wedding-7.mp4" type="video/mp4">
+          </video>
+          <figcaption><span class="eyebrow">Невесты</span>Образ с длинной вуалью</figcaption>
+        </figure>
+        <figure class="portfolio-item">
           <video controls preload="none" playsinline poster="images/portfolio/stories/evening-1.jpg">
             <source src="images/portfolio/stories/evening-1.mp4" type="video/mp4">
           </video>
@@ -236,7 +265,7 @@
           <video controls preload="none" playsinline poster="images/portfolio/stories/evening-2.jpg">
             <source src="images/portfolio/stories/evening-2.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Событие</span>Вечерний образ</figcaption>
+          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
         </figure>
         <figure class="portfolio-item">
           <video controls preload="none" playsinline poster="images/portfolio/stories/business.jpg">
@@ -311,10 +340,34 @@
     <div class="container">
       <p class="eyebrow center">Отзывы</p>
       <h2 class="section-title center">Что говорят клиентки</h2>
-      <div class="testimonial-video">
-        <video controls preload="none" playsinline poster="images/portfolio/stories/testimonial.jpg">
-          <source src="images/portfolio/stories/testimonial.mp4" type="video/mp4">
-        </video>
+      <!-- Карусель отзывов: одна история за раз. Есть подпись — стоит рядом,
+           нет — история по центру. -->
+      <div class="rv-carousel">
+        <button type="button" class="rv-nav rv-prev" aria-label="Предыдущий отзыв"></button>
+        <div class="rv-track">
+          <div class="rv-slide is-active">
+            <div class="testimonial-video">
+              <video controls preload="none" playsinline poster="images/portfolio/stories/testimonial.jpg">
+                <source src="images/portfolio/stories/testimonial.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="rv-slide has-text" hidden>
+            <div class="testimonial-video">
+              <img src="images/portfolio/stories/review-1.jpg" alt="Отзыв невесты в переписке">
+            </div>
+            <blockquote class="testimonial-text">
+              <p>Хотела выразить огромную благодарность! Вот кажется в течении дня, что макияж, букет и платье — такие мелочи, но они реально создают настрой на весь день! Я вчера себя чувствовала самой красивой и уверенной невестой, и всё благодаря тебе!</p>
+              <p>Продержалось всё весь день, хотя мы 2 часа на улице фоткались! Ты волшебница! И краситься было так комфортно — я как будто с подругой просто встретилась!</p>
+              <footer>Невеста, август 2026</footer>
+            </blockquote>
+          </div>
+        </div>
+        <button type="button" class="rv-nav rv-next" aria-label="Следующий отзыв"></button>
+        <div class="pi-dots rv-dots">
+          <button type="button" class="is-active" aria-label="Отзыв 1"></button>
+          <button type="button" aria-label="Отзыв 2"></button>
+        </div>
       </div>
       <p class="section-sub center" style="margin-top:1.5rem;">Больше историй клиенток — в Instagram*.</p>
       <div class="center" style="margin-top:1rem;">
