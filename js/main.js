@@ -85,3 +85,38 @@ if (pfChips.length) {
     row.addEventListener('click', () => applyFilter(row.dataset.filter));
   });
 }
+
+// Карусель отзывов: одна история за раз — секция перестаёт занимать пол-экрана.
+// Листается стрелками, точками и свайпом; видео при уходе со слайда ставится на паузу.
+const rvCarousel = document.querySelector('.rv-carousel');
+if (rvCarousel) {
+  const rvSlides = [...rvCarousel.querySelectorAll('.rv-slide')];
+  const rvDots = [...rvCarousel.querySelectorAll('.rv-dots button')];
+  let rvCurrent = 0;
+
+  const rvShow = index => {
+    const next = (index + rvSlides.length) % rvSlides.length;
+    if (next === rvCurrent) return;
+    rvSlides[rvCurrent].querySelector('video')?.pause();
+    rvCurrent = next;
+    rvSlides.forEach((slide, i) => { slide.hidden = i !== rvCurrent; });
+    rvDots.forEach((dot, i) => dot.classList.toggle('is-active', i === rvCurrent));
+  };
+
+  rvCarousel.querySelector('.rv-prev').addEventListener('click', () => rvShow(rvCurrent - 1));
+  rvCarousel.querySelector('.rv-next').addEventListener('click', () => rvShow(rvCurrent + 1));
+  rvDots.forEach((dot, i) => dot.addEventListener('click', () => rvShow(i)));
+
+  // Свайп пальцем. Порог в 40px, чтобы тап по плееру не считался листанием.
+  // Мышь не трогаем — протяжка по тексту должна выделять текст, а не листать.
+  let rvStartX = null;
+  rvCarousel.addEventListener('pointerdown', e => {
+    rvStartX = e.pointerType === 'touch' ? e.clientX : null;
+  });
+  rvCarousel.addEventListener('pointerup', e => {
+    if (rvStartX === null) return;
+    const shift = e.clientX - rvStartX;
+    rvStartX = null;
+    if (Math.abs(shift) > 40) rvShow(rvCurrent + (shift < 0 ? 1 : -1));
+  });
+}

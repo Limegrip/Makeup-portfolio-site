@@ -375,14 +375,49 @@ section { padding: 5rem 0; }
 
 /* Reviews */
 .reviews { background: var(--cream-alt); }
-.reviews-grid {
+/* Карусель отзывов. Слайд с подписью — две колонки, без подписи — одна,
+   поэтому история без текста встаёт по центру сама. */
+.rv-carousel { position: relative; margin-top: 2.5rem; }
+.rv-slide {
   display: grid;
-  grid-template-columns: 320px minmax(0, 34em);
+  grid-template-columns: 320px;
   justify-content: center;
-  gap: 2.5rem;
   align-items: center;
-  margin-top: 2.5rem;
+  gap: 2.5rem;
+  animation: rv-in 0.35s ease;
 }
+.rv-slide.has-text { grid-template-columns: 320px minmax(0, 34em); }
+.rv-slide[hidden] { display: none; }
+@keyframes rv-in { from { opacity: 0; transform: translateY(8px); } }
+.rv-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--cream);
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.rv-nav:hover { background: var(--brown-strong); border-color: var(--brown-strong); }
+.rv-nav::before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 0 auto;
+  border-top: 1.5px solid var(--brown);
+  border-right: 1.5px solid var(--brown);
+}
+.rv-nav:hover::before { border-color: var(--white); }
+.rv-prev { left: 0; }
+.rv-prev::before { transform: translateX(2px) rotate(-135deg); }
+.rv-next { right: 0; }
+.rv-next::before { transform: translateX(-2px) rotate(45deg); }
+.rv-dots { padding-top: 1.2rem; }
 .testimonial-text {
   margin: 0;
   max-width: 34em;
@@ -409,7 +444,7 @@ section { padding: 5rem 0; }
   border: 1px solid var(--border);
   box-shadow: 0 20px 40px -20px rgba(36, 26, 18, 0.35);
 }
-.reviews-grid .testimonial-video { margin: 0 auto; }
+.rv-slide .testimonial-video { margin: 0 auto; }
 .testimonial-video video,
 .testimonial-video img {
   width: 100%;
@@ -492,7 +527,8 @@ section { padding: 5rem 0; }
 }
 
 @media (max-width: 760px) {
-  .reviews-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+  .rv-slide.has-text { grid-template-columns: 320px; }
+  .rv-nav { display: none; }
   .testimonial-text { font-size: 1.12rem; text-align: center; }
   .nav {
     position: fixed;

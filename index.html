@@ -340,21 +340,34 @@
     <div class="container">
       <p class="eyebrow center">Отзывы</p>
       <h2 class="section-title center">Что говорят клиентки</h2>
-      <div class="testimonial-video">
-        <video controls preload="none" playsinline poster="images/portfolio/stories/testimonial.jpg">
-          <source src="images/portfolio/stories/testimonial.mp4" type="video/mp4">
-        </video>
-      </div>
-      <!-- Текст стоит рядом со скрином, на котором он написан, а не с чужим видео. -->
-      <div class="reviews-grid">
-        <div class="testimonial-video">
-          <img src="images/portfolio/stories/review-1.jpg" alt="Отзыв невесты в переписке">
+      <!-- Карусель отзывов: одна история за раз. Есть подпись — стоит рядом,
+           нет — история по центру. -->
+      <div class="rv-carousel">
+        <button type="button" class="rv-nav rv-prev" aria-label="Предыдущий отзыв"></button>
+        <div class="rv-track">
+          <div class="rv-slide is-active">
+            <div class="testimonial-video">
+              <video controls preload="none" playsinline poster="images/portfolio/stories/testimonial.jpg">
+                <source src="images/portfolio/stories/testimonial.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="rv-slide has-text" hidden>
+            <div class="testimonial-video">
+              <img src="images/portfolio/stories/review-1.jpg" alt="Отзыв невесты в переписке">
+            </div>
+            <blockquote class="testimonial-text">
+              <p>Хотела выразить огромную благодарность! Вот кажется в течении дня, что макияж, букет и платье — такие мелочи, но они реально создают настрой на весь день! Я вчера себя чувствовала самой красивой и уверенной невестой, и всё благодаря тебе!</p>
+              <p>Продержалось всё весь день, хотя мы 2 часа на улице фоткались! Ты волшебница! И краситься было так комфортно — я как будто с подругой просто встретилась!</p>
+              <footer>Невеста, август 2026</footer>
+            </blockquote>
+          </div>
         </div>
-        <blockquote class="testimonial-text">
-          <p>Хотела выразить огромную благодарность! Вот кажется в течении дня, что макияж, букет и платье — такие мелочи, но они реально создают настрой на весь день! Я вчера себя чувствовала самой красивой и уверенной невестой, и всё благодаря тебе!</p>
-          <p>Продержалось всё весь день, хотя мы 2 часа на улице фоткались! Ты волшебница! И краситься было так комфортно — я как будто с подругой просто встретилась!</p>
-          <footer>Невеста, август 2026</footer>
-        </blockquote>
+        <button type="button" class="rv-nav rv-next" aria-label="Следующий отзыв"></button>
+        <div class="pi-dots rv-dots">
+          <button type="button" class="is-active" aria-label="Отзыв 1"></button>
+          <button type="button" aria-label="Отзыв 2"></button>
+        </div>
       </div>
       <p class="section-sub center" style="margin-top:1.5rem;">Больше историй клиенток — в Instagram*.</p>
       <div class="center" style="margin-top:1rem;">
