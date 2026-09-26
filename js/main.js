@@ -61,3 +61,27 @@ document.querySelectorAll('.portfolio-item .pi-stack').forEach(stack => {
     show(i);
   }));
 });
+
+// Фильтр портфолио по услуге. Категорию карточка уже несёт в подписи,
+// поэтому отдельных data-атрибутов на карточках не нужно.
+const pfChips = [...document.querySelectorAll('.pf-filters button')];
+if (pfChips.length) {
+  const pfItems = [...document.querySelectorAll('.portfolio-item')].map(el => ({
+    el,
+    category: el.querySelector('figcaption .eyebrow')?.textContent.trim() || ''
+  }));
+
+  const applyFilter = filter => {
+    pfItems.forEach(({ el, category }) => {
+      el.hidden = filter !== 'all' && category !== filter;
+    });
+    pfChips.forEach(chip => chip.classList.toggle('is-active', chip.dataset.filter === filter));
+  };
+
+  pfChips.forEach(chip => chip.addEventListener('click', () => applyFilter(chip.dataset.filter)));
+
+  // Строки в «Услугах» ведут в портфолио с уже включённым фильтром.
+  document.querySelectorAll('.service-row[data-filter]').forEach(row => {
+    row.addEventListener('click', () => applyFilter(row.dataset.filter));
+  });
+}
