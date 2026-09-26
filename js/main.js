@@ -120,3 +120,17 @@ if (rvCarousel) {
     if (Math.abs(shift) > 40) rvShow(rvCurrent + (shift < 0 ? 1 : -1));
   });
 }
+
+// Постеры видео: атрибут poster не умеет loading="lazy", поэтому подставляем
+// его сами, когда карточка подходит к экрану. Иначе 24 постера тянутся сразу.
+const lazyPosters = document.querySelectorAll('video[data-poster]');
+if (lazyPosters.length) {
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(({ isIntersecting, target }) => {
+      if (!isIntersecting) return;
+      target.poster = target.dataset.poster;
+      obs.unobserve(target);
+    });
+  }, { rootMargin: '400px' });
+  lazyPosters.forEach(v => io.observe(v));
+}

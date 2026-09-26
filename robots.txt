@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://limegrip.github.io/Makeup-portfolio-site/sitemap.xml
