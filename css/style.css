@@ -69,7 +69,7 @@ section { padding: 5rem 0; }
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
   white-space: nowrap;
 }
-.btn-icon { width: 20px; height: 20px; flex-shrink: 0; }
+.btn-icon { width: 18px; height: 18px; flex-shrink: 0; }
 .btn-primary { background: var(--brown-strong); color: var(--white); }
 .btn-primary:hover { background: var(--brown-dark); }
 .btn-ghost { border-color: var(--brown-dark); color: var(--brown-dark); }
@@ -129,7 +129,7 @@ section { padding: 5rem 0; }
   transition: transform 0.15s ease;
 }
 .header-actions a:hover { transform: translateY(-2px); color: var(--brown-strong); }
-.header-social-icon { width: 22px; height: 22px; flex-shrink: 0; }
+.header-social-icon { width: 20px; height: 20px; flex-shrink: 0; }
 .burger {
   display: none;
   flex-direction: column;
