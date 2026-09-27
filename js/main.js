@@ -1,17 +1,21 @@
+// Меню в отдельном блоке с проверкой: без неё отсутствующий #burger уронил бы
+// весь файл, а вместе с ним карусели, фильтр и отзывы.
 const burger = document.getElementById('burger');
 const nav = document.getElementById('nav');
 
-burger.addEventListener('click', () => {
-  const open = nav.classList.toggle('open');
-  burger.setAttribute('aria-expanded', open);
-});
-
-nav.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    nav.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
+if (burger && nav) {
+  burger.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open);
   });
-});
+
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
 
 // Карусель в карточках портфолио: кадры одного человека лежат в одном боксе.
 // Видео всегда последнее в стопке — на нём автопролистывание останавливается,
@@ -32,7 +36,11 @@ document.querySelectorAll('.portfolio-item .pi-stack').forEach(stack => {
     if (leaving.tagName === 'VIDEO') leaving.pause();
     current = index;
     slides.forEach((slide, i) => slide.classList.toggle('is-active', i === current));
-    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === current));
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === current);
+      // aria-current, а не aria-pressed: точка выбирает текущий кадр, а не включается
+      dot.toggleAttribute('aria-current', i === current);
+    });
   };
 
   const advance = () => {
@@ -75,7 +83,11 @@ if (pfChips.length) {
     pfItems.forEach(({ el, category }) => {
       el.hidden = filter !== 'all' && category !== filter;
     });
-    pfChips.forEach(chip => chip.classList.toggle('is-active', chip.dataset.filter === filter));
+    pfChips.forEach(chip => {
+      const on = chip.dataset.filter === filter;
+      chip.classList.toggle('is-active', on);
+      chip.setAttribute('aria-pressed', on);
+    });
   };
 
   pfChips.forEach(chip => chip.addEventListener('click', () => applyFilter(chip.dataset.filter)));
@@ -100,7 +112,10 @@ if (rvCarousel) {
     rvSlides[rvCurrent].querySelector('video')?.pause();
     rvCurrent = next;
     rvSlides.forEach((slide, i) => { slide.hidden = i !== rvCurrent; });
-    rvDots.forEach((dot, i) => dot.classList.toggle('is-active', i === rvCurrent));
+    rvDots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === rvCurrent);
+      dot.toggleAttribute('aria-current', i === rvCurrent);
+    });
   };
 
   rvCarousel.querySelector('.rv-prev').addEventListener('click', () => rvShow(rvCurrent - 1));

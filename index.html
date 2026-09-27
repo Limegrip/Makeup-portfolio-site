@@ -212,12 +212,12 @@
   <div class="portfolio">
     <div class="container">
       <div class="pf-filters" role="group" aria-label="Фильтр работ по услуге">
-        <button type="button" class="is-active" data-filter="all">Все работы</button>
-        <button type="button" data-filter="Невесты">Свадебный образ</button>
-        <button type="button" data-filter="Событие">Вечерний образ</button>
-        <button type="button" data-filter="Каждый день">Дневной макияж</button>
-        <button type="button" data-filter="Стиль">Причёски и укладки</button>
-        <button type="button" data-filter="Съёмка">Backstage</button>
+        <button type="button" aria-pressed="true" class="is-active" data-filter="all">Все работы</button>
+        <button type="button" aria-pressed="false" data-filter="Невесты">Свадебный образ</button>
+        <button type="button" aria-pressed="false" data-filter="Событие">Вечерний образ</button>
+        <button type="button" aria-pressed="false" data-filter="Каждый день">Дневной макияж</button>
+        <button type="button" aria-pressed="false" data-filter="Стиль">Причёски и укладки</button>
+        <button type="button" aria-pressed="false" data-filter="Съёмка">Backstage</button>
       </div>
       <div class="portfolio-grid">
         <figure class="portfolio-item">
@@ -243,7 +243,7 @@
             </video>
           </div>
           <div class="pi-dots">
-            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2"></button>
             <button type="button" aria-label="Кадр 3"></button>
             <button type="button" aria-label="Кадр 4"></button>
@@ -262,7 +262,7 @@
             </video>
           </div>
           <div class="pi-dots">
-            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2"></button>
             <button type="button" aria-label="Кадр 3"></button>
             <button type="button" aria-label="Кадр 4"></button>
@@ -279,7 +279,7 @@
             </video>
           </div>
           <div class="pi-dots">
-            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2, видео"></button>
           </div>
           <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
@@ -336,7 +336,7 @@
             </video>
           </div>
           <div class="pi-dots">
-            <button type="button" class="is-active" aria-label="Кадр 1, видео"></button>
+            <button type="button" class="is-active" aria-current aria-label="Кадр 1, видео"></button>
             <button type="button" aria-label="Кадр 2, видео"></button>
           </div>
           <figcaption><span class="eyebrow">Невесты</span>Пробный образ невесты</figcaption>
@@ -352,7 +352,7 @@
             </video>
           </div>
           <div class="pi-dots">
-            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2"></button>
             <button type="button" aria-label="Кадр 3"></button>
             <button type="button" aria-label="Кадр 4"></button>
@@ -368,7 +368,7 @@
             <img width="540" height="960" loading="lazy" decoding="async" src="images/portfolio/stories/photo-7d.jpg" alt="Пучок сбоку">
           </div>
           <div class="pi-dots">
-            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2"></button>
             <button type="button" aria-label="Кадр 3"></button>
             <button type="button" aria-label="Кадр 4"></button>
@@ -386,7 +386,7 @@
             </video>
           </div>
           <div class="pi-dots">
-            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2"></button>
             <button type="button" aria-label="Кадр 3"></button>
             <button type="button" aria-label="Кадр 4"></button>
@@ -408,7 +408,7 @@
             </video>
           </div>
           <div class="pi-dots">
-            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2, видео"></button>
           </div>
           <figcaption><span class="eyebrow">Невесты</span>Образ с голливудской волной</figcaption>
@@ -424,7 +424,7 @@
             </video>
           </div>
           <div class="pi-dots">
-            <button type="button" class="is-active" aria-label="Кадр 1"></button>
+            <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2"></button>
             <button type="button" aria-label="Кадр 3"></button>
             <button type="button" aria-label="Кадр 4"></button>
@@ -560,7 +560,7 @@
         </div>
         <button type="button" class="rv-nav rv-next" aria-label="Следующий отзыв"></button>
         <div class="pi-dots rv-dots">
-          <button type="button" class="is-active" aria-label="Отзыв 1"></button>
+          <button type="button" class="is-active" aria-current aria-label="Отзыв 1"></button>
           <button type="button" aria-label="Отзыв 2"></button>
           <button type="button" aria-label="Отзыв 3"></button>
           <button type="button" aria-label="Отзыв 4"></button>

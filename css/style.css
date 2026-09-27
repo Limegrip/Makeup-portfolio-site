@@ -354,10 +354,6 @@ section { padding: 5rem 0; }
   transition: background 0.25s ease;
 }
 .pi-dots button.is-active { background: var(--brown-strong); }
-@media (prefers-reduced-motion: reduce) {
-  .pi-stack > * { transition: none; }
-}
-
 /* Services grid (legacy card fallback, unused but kept minimal) */
 
 /* Why */
@@ -562,4 +558,12 @@ section { padding: 5rem 0; }
   .footer-social-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .hero-actions .btn { width: 100%; justify-content: center; }
   .fact-strip-inner span:nth-child(2n)::after { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pi-stack > * { transition: none; }
+  /* Плавная прокрутка и выезд слайда отзывов — тоже движение, которое просили выключить. */
+  html { scroll-behavior: auto; }
+  .rv-slide { animation: none; }
+  .hero-media img, .about-media img, .why-media img { transition: none; }
 }
