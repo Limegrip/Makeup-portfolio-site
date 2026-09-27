@@ -22,32 +22,32 @@ TZ = ZoneInfo("Europe/Moscow")
 # Длительность — только работа. Дорогу добавляет BUFFER_MIN с обеих сторон.
 SERVICES = {
     "wedding": ("Свадебный образ", 180),
-    "trial": ("Пробный образ", 120),
-    "evening": ("Вечерний макияж", 90),
+    "trial": ("Пробный образ", 180),
+    "evening": ("Вечерний макияж", 120),
     "day": ("Дневной макияж", 60),
-    "hair": ("Причёски и укладки", 90),
-    "lesson": ("Обучение визажу", 120),
+    "hair": ("Причёски и укладки", 60),
+    "lesson": ("Обучение визажу", 180),
 }
 BUFFER_MIN = int(os.environ.get("BUFFER_MIN", 60))   # дорога до и после
-OPEN, CLOSE = time(6, 0), time(21, 0)                # рабочий день
 STEP_MIN = 30
-NOTICE_HOURS = 12                                    # не раньше, чем через 12 ч
+NOTICE_HOURS = 6                                     # не раньше, чем через 6 ч
 HORIZON_DAYS = 365                                   # свадьбы бронируют заранее
 
 
 def free_starts(day, minutes, busy, now):
-    """Свободные времена начала услуги в день day.
+    """Свободные времена начала услуги в день day — круглосуточно, без выходных:
+    нерабочее время Настя закрывает событиями в календаре.
 
     busy — список (start, end) aware-datetime. Слот свободен, если вместе с
     дорогой до и после он не пересекается ни с одним занятым интервалом.
     """
     buf = timedelta(minutes=BUFFER_MIN)
     dur = timedelta(minutes=minutes)
-    t = datetime.combine(day, OPEN, TZ)
-    close = datetime.combine(day, CLOSE, TZ)
+    t = datetime.combine(day, time(0), TZ)
+    next_day = t + timedelta(days=1)
     earliest = now + timedelta(hours=NOTICE_HOURS)
     out = []
-    while t + dur <= close:
+    while t < next_day:  # запись может закончиться уже после полуночи
         if t >= earliest and not any(s < t + dur + buf and e > t - buf for s, e in busy):
             out.append(t)
         t += timedelta(minutes=STEP_MIN)
@@ -94,6 +94,13 @@ def busy_between(cal, start, end):
     return busy
 
 
+def _busy_days(cal, first, last):
+    # С запасом по краям: запись в 23:30 заканчивается уже на следующий день.
+    pad = timedelta(minutes=BUFFER_MIN + max(m for _, m in SERVICES.values()))
+    return busy_between(cal, datetime.combine(first, time(0), TZ) - pad,
+                        datetime.combine(last + timedelta(days=1), time(0), TZ) + pad)
+
+
 def _month_days(month, today):
     first = datetime.strptime(month, "%Y-%m").date()
     last = (first.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
@@ -114,9 +121,7 @@ def get_slots(params, cal=None, now=None):
               "days": {}}
     if days:
         cal = cal or _calendar()
-        pad = timedelta(minutes=BUFFER_MIN)
-        busy = busy_between(cal, datetime.combine(days[0], time(0), TZ) - pad,
-                            datetime.combine(days[-1], time(23, 59), TZ) + pad)
+        busy = _busy_days(cal, days[0], days[-1])
         minutes = SERVICES[service][1]
         for d in days:
             starts = free_starts(d, minutes, busy, now)
@@ -153,10 +158,8 @@ def create_booking(data, cal=None, now=None):
 
     title, minutes = SERVICES[service]
     cal = cal or _calendar()
-    pad = timedelta(minutes=BUFFER_MIN)
     day = start.date()
-    busy = busy_between(cal, datetime.combine(day, time(0), TZ) - pad,
-                        datetime.combine(day, time(23, 59), TZ) + pad)
+    busy = _busy_days(cal, day, day)
     # Перепроверяем на сервере: пока клиентка заполняла форму, время могли занять.
     # ponytail: две заявки в одну и ту же секунду обе пройдут; для одного мастера
     # это не случается, иначе — блокировка на время записи.

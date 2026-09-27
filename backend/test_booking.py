@@ -22,9 +22,14 @@ class FakeCal:
 
 booking.busy_between = lambda cal, s, e: cal.busy  # календарь подменён
 
-# Пустой день: с 06:00, последний старт — так, чтобы закончить к 21:00.
+# Пустой день: круглосуточно, каждые 30 минут с 00:00 до 23:30.
 slots = free_starts(DAY, 180, [], NOW)
-assert slots[0] == at(6) and slots[-1] == at(18), slots
+assert slots[0] == at(0) and slots[-1] == at(23, 30) and len(slots) == 48, slots
+
+# Ночная запись упирается в событие следующего утра: 23:00 + 3 ч + 1 ч дороги > 02:30.
+next_morning = at(2, 30, d=DAY + timedelta(days=1))
+slots = free_starts(DAY, 180, [(next_morning, next_morning + timedelta(hours=2))], NOW)
+assert at(22, 30) in slots and at(23) not in slots
 
 # Занято 12:00–14:00, дорога 60 мин: 3-часовая услуга должна закончиться к 11:00
 # и может начаться не раньше 15:00.
@@ -35,8 +40,8 @@ assert at(14, 30) not in slots and at(15) in slots
 # Выходной (весь день) — ни одного слота.
 assert free_starts(DAY, 60, [(at(0), at(0, d=DAY + timedelta(days=1)))], NOW) == []
 
-# Минимум 12 часов до записи: сегодня в 09:00 — первый слот не раньше 21:00, т.е. нет.
-assert free_starts(NOW.date(), 60, [], NOW) == []
+# Минимум 6 часов до записи: сейчас 09:00 — первый слот сегодня в 15:00.
+assert free_starts(NOW.date(), 60, [], NOW)[0] == at(15, d=NOW.date())
 
 # Месяц: прошлые дни не отдаются, октябрь начинается с сегодняшнего дня.
 status, data = get_slots({"service": "day", "month": "2026-10"}, FakeCal([]), NOW)
