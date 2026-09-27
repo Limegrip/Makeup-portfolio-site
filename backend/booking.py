@@ -11,6 +11,7 @@ import base64
 import json
 import os
 import re
+import urllib.error
 import urllib.parse
 import urllib.request
 import uuid
@@ -177,8 +178,9 @@ def create_booking(data, cal=None, now=None):
         "Заявка с сайта — ждёт подтверждения. Созвонитесь и поправьте событие при необходимости.",
     ]))
     cal.save_event(_ical(start, end, f"Заявка: {title} — {name}", details, address))
-    _notify(f"Новая заявка на запись\n{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}\n{details}")
-    return 200, {"ok": True}
+    error = _notify(f"Новая заявка на запись\n{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}\n{details}")
+    # Заявка уже в календаре, поэтому ok в любом случае; telegram — для диагностики.
+    return 200, {"ok": True, "telegram": error or "sent"}
 
 
 def _ical(start, end, summary, description, location):
@@ -203,14 +205,21 @@ def _ical(start, end, summary, description, location):
 
 
 def _notify(text):
+    """Шлёт сообщение в Telegram. Возвращает None или текст ошибки (без токена)."""
     token, chat = os.environ.get("TG_BOT_TOKEN"), os.environ.get("TG_CHAT_ID")
     if not (token and chat):
-        return
+        return "not configured"
     body = urllib.parse.urlencode({"chat_id": chat, "text": text}).encode()
     try:
         urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage", body, timeout=10)
+    except urllib.error.HTTPError as err:
+        error = f"HTTP {err.code}: {err.read().decode(errors='replace')[:200]}"
     except OSError as err:  # заявка уже в календаре — не теряем её из-за Telegram
-        print("telegram failed:", err)
+        error = f"{type(err).__name__}: {err}"
+    else:
+        return None
+    print("telegram failed:", error)
+    return error
 
 
 def handler(event, context):

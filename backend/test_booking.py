@@ -48,7 +48,7 @@ assert get_slots({"service": "nope"}, FakeCal([]), NOW)[0] == 400
 form = {"service": "wedding", "date": "2026-10-05", "time": "10:00", "name": "Мария",
         "phone": "+7 999 123-45-67", "address": "Химки", "comment": "", "consent": True}
 cal = FakeCal([])
-assert create_booking(form, cal, NOW) == (200, {"ok": True}) and len(cal.saved) == 1
+assert create_booking(form, cal, NOW) == (200, {"ok": True, "telegram": "not configured"}) and len(cal.saved) == 1
 assert "STATUS:TENTATIVE" in cal.saved[0] and "DTSTART;TZID=Europe/Moscow:20261005T100000" in cal.saved[0]
 assert create_booking(form, FakeCal([(at(10), at(13))]), NOW)[0] == 409
 assert create_booking({**form, "phone": "abc"}, cal, NOW)[0] == 400
