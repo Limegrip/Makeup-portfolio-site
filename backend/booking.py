@@ -29,32 +29,33 @@ SERVICES = {
     "lesson": ("Обучение визажу", 180),
 }
 BUFFER_MIN = int(os.environ.get("BUFFER_MIN", 60))   # дорога до и после
+OPEN, CLOSE = time(10, 0), time(22, 0)               # запись с сайта: 10:00–22:00
 STEP_MIN = 30
 NOTICE_HOURS = 6                                     # не раньше, чем через 6 ч
 HORIZON_DAYS = 365                                   # свадьбы бронируют заранее
 
 
 def free_starts(day, minutes, busy, now):
-    """Свободные времена начала услуги в день day — круглосуточно, без выходных:
-    нерабочее время Настя закрывает событиями в календаре.
+    """Свободные времена начала услуги в день day. Услуга целиком укладывается
+    в OPEN–CLOSE; ранние и поздние записи Настя ставит в календарь сама.
 
     busy — список (start, end) aware-datetime. Слот свободен, если вместе с
     дорогой до и после он не пересекается ни с одним занятым интервалом.
     """
     buf = timedelta(minutes=BUFFER_MIN)
     dur = timedelta(minutes=minutes)
-    t = datetime.combine(day, time(0), TZ)
-    next_day = t + timedelta(days=1)
+    t = datetime.combine(day, OPEN, TZ)
+    close = datetime.combine(day, CLOSE, TZ)
     earliest = now + timedelta(hours=NOTICE_HOURS)
     out = []
-    while t < next_day:  # запись может закончиться уже после полуночи
+    while t + dur <= close:
         if t >= earliest and not any(s < t + dur + buf and e > t - buf for s, e in busy):
             out.append(t)
         t += timedelta(minutes=STEP_MIN)
     return out
 
 
-def _as_dt(value, end=False):
+def _as_dt(value):
     # Событие «на весь день» (выходной, отпуск) приходит датой, а не временем.
     if isinstance(value, datetime):
         return value.astimezone(TZ) if value.tzinfo else value.replace(tzinfo=TZ)
@@ -95,8 +96,7 @@ def busy_between(cal, start, end):
 
 
 def _busy_days(cal, first, last):
-    # С запасом по краям: запись в 23:30 заканчивается уже на следующий день.
-    pad = timedelta(minutes=BUFFER_MIN + max(m for _, m in SERVICES.values()))
+    pad = timedelta(minutes=BUFFER_MIN)  # дорога может задеть соседний день
     return busy_between(cal, datetime.combine(first, time(0), TZ) - pad,
                         datetime.combine(last + timedelta(days=1), time(0), TZ) + pad)
 

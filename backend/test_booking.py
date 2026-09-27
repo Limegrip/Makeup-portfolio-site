@@ -22,25 +22,21 @@ class FakeCal:
 
 booking.busy_between = lambda cal, s, e: cal.busy  # календарь подменён
 
-# Пустой день: круглосуточно, каждые 30 минут с 00:00 до 23:30.
+# Пустой день: с 10:00, 3-часовая услуга должна закончиться к 22:00 — последний старт 19:00.
 slots = free_starts(DAY, 180, [], NOW)
-assert slots[0] == at(0) and slots[-1] == at(23, 30) and len(slots) == 48, slots
+assert slots[0] == at(10) and slots[-1] == at(19), slots
+assert free_starts(DAY, 60, [], NOW)[-1] == at(21)
 
-# Ночная запись упирается в событие следующего утра: 23:00 + 3 ч + 1 ч дороги > 02:30.
-next_morning = at(2, 30, d=DAY + timedelta(days=1))
-slots = free_starts(DAY, 180, [(next_morning, next_morning + timedelta(hours=2))], NOW)
-assert at(22, 30) in slots and at(23) not in slots
-
-# Занято 12:00–14:00, дорога 60 мин: 3-часовая услуга должна закончиться к 11:00
-# и может начаться не раньше 15:00.
-slots = free_starts(DAY, 180, [(at(12), at(14))], NOW)
-assert at(8) in slots and at(8, 30) not in slots
-assert at(14, 30) not in slots and at(15) in slots
+# Занято 15:00–16:00, дорога 60 мин: 3-часовая услуга должна закончиться к 14:00
+# и может начаться не раньше 17:00.
+slots = free_starts(DAY, 180, [(at(15), at(16))], NOW)
+assert at(11) in slots and at(11, 30) not in slots
+assert at(16, 30) not in slots and at(17) in slots
 
 # Выходной (весь день) — ни одного слота.
 assert free_starts(DAY, 60, [(at(0), at(0, d=DAY + timedelta(days=1)))], NOW) == []
 
-# Минимум 6 часов до записи: сейчас 09:00 — первый слот сегодня в 15:00.
+# Минимум 6 часов до записи: сейчас 09:00 — первый слот сегодня в 15:00, а не в 10:00.
 assert free_starts(NOW.date(), 60, [], NOW)[0] == at(15, d=NOW.date())
 
 # Месяц: прошлые дни не отдаются, октябрь начинается с сегодняшнего дня.
