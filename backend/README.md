@@ -37,7 +37,7 @@ Telegram из Yandex Cloud недоступен (в РФ он работает �
      | `CALENDAR_NAME` | название календаря; пусто — первый календарь |
      | `RELAY_URL` | URL веб-приложения из шага 3 |
      | `RELAY_SECRET` | тот же `RELAY_SECRET`, что в свойствах скрипта |
-     | `ALLOWED_ORIGIN` | `https://limegrip.github.io` |
+     | `ALLOWED_ORIGIN` | `https://limegrip.github.io null` — сайты через пробел; `null` — страница, открытая с диска |
      | `BUFFER_MIN` | запас на дорогу в минутах, по умолчанию `60` |
 
    - в «Обзоре» включите **«Публичная функция»** и скопируйте ссылку для вызова.

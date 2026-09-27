@@ -237,8 +237,12 @@ def _notify(text):
 
 
 def handler(event, context):
+    # ALLOWED_ORIGIN — через пробел; "null" — страница, открытая с диска (file://).
+    allowed = os.environ.get("ALLOWED_ORIGIN", "*").split()
+    origin = {k.lower(): v for k, v in (event.get("headers") or {}).items()}.get("origin", "")
     headers = {
-        "Access-Control-Allow-Origin": os.environ.get("ALLOWED_ORIGIN", "*"),
+        "Access-Control-Allow-Origin": origin if origin in allowed else allowed[0],
+        "Vary": "Origin",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
         "Content-Type": "application/json; charset=utf-8",

@@ -101,7 +101,10 @@ if (bk && bkApi) {
     } catch (err) {
       if (id !== request) return;
       state.days = {};
-      status.textContent = err.message || 'Не удалось загрузить расписание. Попробуйте позже или напишите в Telegram.';
+      // TypeError — сеть или CORS: текст браузера («Failed to fetch») клиентке ничего не скажет
+      status.textContent = err instanceof TypeError || !err.message
+        ? 'Не удалось загрузить расписание. Попробуйте позже или напишите в Telegram.'
+        : err.message;
     }
     daysBox.removeAttribute('aria-busy');
     renderDays();
