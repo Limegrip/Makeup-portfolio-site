@@ -205,13 +205,27 @@ def _ical(start, end, summary, description, location):
 
 
 def _notify(text):
-    """Шлёт сообщение в Telegram. Возвращает None или текст ошибки (без токена)."""
+    """Шлёт сообщение в Telegram. Возвращает None или текст ошибки (без токена).
+
+    Из российских облаков api.telegram.org недоступен, поэтому при заданном
+    RELAY_URL сообщение уходит через посредника (backend/telegram-relay.gs).
+    """
+    relay, secret = os.environ.get("RELAY_URL"), os.environ.get("RELAY_SECRET")
     token, chat = os.environ.get("TG_BOT_TOKEN"), os.environ.get("TG_CHAT_ID")
-    if not (token and chat):
+    if relay and secret:
+        url = relay
+        body = json.dumps({"secret": secret, "text": text}).encode()
+    elif token and chat:
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        body = urllib.parse.urlencode({"chat_id": chat, "text": text}).encode()
+    else:
         return "not configured"
-    body = urllib.parse.urlencode({"chat_id": chat, "text": text}).encode()
     try:
-        urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage", body, timeout=10)
+        answer = urllib.request.urlopen(url, body, timeout=10).read().decode(errors="replace")
+        if '"ok":true' not in answer.replace(" ", ""):
+            error = f"answer: {answer[:200]}"
+            print("telegram failed:", error)
+            return error
     except urllib.error.HTTPError as err:
         error = f"HTTP {err.code}: {err.read().decode(errors='replace')[:200]}"
     except OSError as err:  # заявка уже в календаре — не теряем её из-за Telegram
