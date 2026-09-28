@@ -515,6 +515,72 @@ section { padding: 5rem 0; }
   padding: 0.8rem 24px;
 }
 
+/* Онлайн-запись. Чипы услуг и времени — те же, что в фильтре портфолио (.pf-filters). */
+.booking { background: var(--cream-alt); }
+.bk-fallback { margin-top: 1.5rem; }
+.bk-fallback a { color: var(--brown-strong); font-weight: 600; text-decoration: underline; }
+.bk { max-width: 720px; margin: 2.5rem auto 0; }
+.bk-step { border: 0; margin: 0 0 2rem; padding: 0; min-width: 0; }
+.bk-step legend {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+.bk .pf-filters { justify-content: flex-start; margin: 0; }
+.bk-hint { margin: 0; color: #8a7a6a; font-size: 0.9rem; }
+.bk-month { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; }
+.bk-month button {
+  font: inherit;
+  font-size: 1.4rem;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--brown);
+  cursor: pointer;
+}
+.bk-month button:disabled { opacity: 0.3; cursor: default; }
+.bk-weekdays, .bk-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.35rem; }
+.bk-weekdays { font-size: 0.75rem; color: #8a7a6a; text-align: center; margin-bottom: 0.35rem; }
+.bk-days button {
+  font: inherit;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--brown-dark);
+  font-weight: 600;
+  cursor: pointer;
+}
+.bk-days button:hover:not(:disabled) { border-color: var(--brown-strong); }
+.bk-days button:disabled { background: transparent; border-color: transparent; color: #b9ab99; font-weight: 400; cursor: default; }
+.bk-days button.is-active { background: var(--brown-strong); border-color: var(--brown-strong); color: var(--white); }
+.bk-days[aria-busy="true"] { opacity: 0.5; }
+.bk-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.bk-fields label { display: grid; gap: 0.35rem; font-size: 0.85rem; font-weight: 600; color: var(--brown); }
+.bk-wide { grid-column: 1 / -1; }
+.bk-fields input:not([type="checkbox"]), .bk-fields textarea {
+  font: inherit;
+  font-weight: 400;
+  color: var(--brown-dark);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.8rem;
+  width: 100%;
+}
+.bk-fields textarea { resize: vertical; }
+.bk-fields input:focus, .bk-fields textarea:focus { outline: 2px solid var(--brown-strong); outline-offset: 1px; }
+.bk-consent { display: flex !important; align-items: flex-start; gap: 0.6rem; font-weight: 400 !important; }
+.bk-consent input { margin-top: 0.2rem; accent-color: var(--brown-strong); }
+.bk-trap { position: absolute; left: -9999px; }
+.bk-summary { font-family: var(--serif); font-size: 1.3rem; margin: 0 0 1rem; min-height: 1.3em; }
+.bk-submit:disabled { opacity: 0.6; cursor: default; }
+.bk-status { margin: 1rem 0 0; color: var(--brown-strong); font-weight: 600; min-height: 1.5em; }
+
 /* Responsive */
 @media (max-width: 900px) {
   .hero { grid-template-columns: minmax(0,1fr); min-height: auto; }
@@ -558,6 +624,8 @@ section { padding: 5rem 0; }
   .footer-social-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .hero-actions .btn { width: 100%; justify-content: center; }
   .fact-strip-inner span:nth-child(2n)::after { display: none; }
+  .bk-fields { grid-template-columns: minmax(0, 1fr); }
+  .bk-submit { width: 100%; justify-content: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
