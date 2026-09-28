@@ -1,8 +1,13 @@
 // Онлайн-запись. Свободное время считает функция в Yandex Cloud (backend/booking.py),
-// здесь только показываем его и отправляем заявку. Без адреса функции в data-api
-// форма остаётся скрытой, а вместо неё видна ссылка на Telegram.
+// здесь только показываем его и отправляем заявку.
+// Выключатель: пустой data-api у #booking убирает с сайта и раздел, и пункт меню.
 const bk = document.getElementById('booking');
 const bkApi = bk?.dataset.api;
+
+if (bk && !bkApi) {
+  bk.hidden = true;
+  document.querySelectorAll('a[href="#booking"]').forEach(a => { a.hidden = true; });
+}
 
 if (bk && bkApi) {
   const form = bk.querySelector('.bk');
