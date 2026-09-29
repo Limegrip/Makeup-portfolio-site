@@ -1,0 +1,141 @@
+/* Карточки прайса для сторис — 1080×1920, палитра и шрифты сайта.
+   Открываются в браузере как обычная страница; картинки снимаются
+   скриптом render.mjs. Меняются цены — перерисовать карточки. */
+:root {
+  --cream: #f7f1e8;
+  --cream-alt: #efe6d8;
+  --brown-dark: #241a12;
+  --brown: #6b3a22;
+  --brown-strong: #8a4a24;
+  --accent: #8a5a3c;
+  --border: #e1d3bd;
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  width: 1080px;
+  height: 1920px;
+  background: var(--cream);
+  color: var(--brown-dark);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Тонкая рамка — единственное украшение, дальше работает только типографика */
+.card {
+  position: absolute;
+  inset: 40px;
+  border: 1px solid var(--border);
+  padding: 74px 76px 64px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Шапка */
+.head { text-align: center; }
+.mark { color: var(--brown-strong); margin: 0 auto 26px; display: block; }
+.eyebrow {
+  font-size: 19px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--brown-strong);
+  margin: 0 0 20px;
+}
+.name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 72px;
+  line-height: 1.05;
+  color: var(--brown-strong);
+  margin: 0;
+}
+.subtitle {
+  font-family: var(--serif);
+  font-size: 40px;
+  font-weight: 500;
+  color: var(--brown);
+  margin: 18px 0 0;
+}
+
+/* Разделы */
+.body { flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; gap: 48px; }
+.group-title {
+  font-family: var(--serif);
+  font-size: 42px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 17px 0 0;
+}
+.row-label {
+  font-size: 21px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+.row-label small {
+  display: block;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--accent);
+  margin-top: 6px;
+}
+.row-price {
+  font-family: var(--serif);
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--brown-strong);
+  white-space: nowrap;
+}
+
+/* Описание урока */
+.lesson-body { display: flex; align-items: flex-start; justify-content: space-between; gap: 40px; padding-top: 20px; }
+.lesson-text { font-size: 22px; line-height: 1.7; color: var(--brown); max-width: 620px; margin: 0; }
+.lesson-meta { text-align: right; }
+.lesson-meta .row-price { font-size: 44px; display: block; }
+.lesson-meta .time {
+  display: block;
+  margin-top: 8px;
+  font-size: 17px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.note {
+  text-align: center;
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  color: var(--brown);
+  margin: 0;
+}
+
+/* Контакты */
+.foot { text-align: center; }
+.foot-line {
+  font-size: 20px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brown);
+  margin: 0 0 12px;
+}
+.foot-line strong { font-weight: 600; color: var(--brown-strong); }
+.disclaimer {
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #9a8874;
+  margin: 24px 0 0;
+}
