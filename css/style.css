@@ -245,6 +245,33 @@ section { padding: 5rem 0; }
 }
 .service-thumb img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(35%); transition: filter 0.2s ease; }
 .service-row:hover .service-thumb img { filter: grayscale(0%); }
+.service-price { font-family: var(--serif); font-size: 1.15rem; color: #cbb79a; white-space: nowrap; justify-self: end; }
+
+/* Стоимость — три воздушные колонки на тёмном фоне «Услуг» */
+.pricing {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.8rem, 4vw, 3.5rem);
+  padding-top: 3.4rem;
+  padding-bottom: 1.4rem;
+}
+.price-list { margin: 0; }
+.price-list > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.62rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+}
+.price-list dt { font-size: 0.92rem; }
+.price-list dd {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  white-space: nowrap;
+}
+.price-note { margin: 0.9rem 0 0; font-size: 0.82rem; line-height: 1.5; color: #cbb79a; }
 
 /* Portfolio banner */
 /* Разделитель перед портфолио: типографика, без фото —
@@ -589,6 +616,8 @@ section { padding: 5rem 0; }
   .hero-media img { object-position: 50% 26%; }
   .about-inner, .why-inner { grid-template-columns: minmax(0,1fr); }
   .portfolio-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .pricing { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .price-col:last-child { grid-column: 1 / -1; }
   .footer-nav { display: none; }
 }
 
@@ -615,8 +644,12 @@ section { padding: 5rem 0; }
   .header-actions { display: none; }
   .burger { display: flex; }
   section { padding: 3.2rem 0; }
-  .service-row { grid-template-columns: 2.2rem 1fr 48px; }
-  .service-thumb { width: 48px; height: 48px; }
+  .service-row { grid-template-columns: 2.2rem 1fr 48px; gap: 0.2rem 1rem; }
+  .service-num { grid-column: 1; grid-row: 1; }
+  .service-name { grid-column: 2; grid-row: 1; }
+  .service-price { grid-column: 2; grid-row: 2; justify-self: start; font-size: 0.95rem; }
+  .service-thumb { grid-column: 3; grid-row: 1 / 3; width: 48px; height: 48px; }
+  .pricing { grid-template-columns: minmax(0,1fr); }
 }
 
 @media (max-width: 560px) {
