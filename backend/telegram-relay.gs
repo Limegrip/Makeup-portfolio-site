@@ -14,7 +14,11 @@ function doPost(e) {
   }
   const res = UrlFetchApp.fetch(
     'https://api.telegram.org/bot' + props.getProperty('TG_BOT_TOKEN') + '/sendMessage',
-    { method: 'post', payload: { chat_id: props.getProperty('TG_CHAT_ID'), text: data.text }, muteHttpExceptions: true }
+    { method: 'post', muteHttpExceptions: true, payload: {
+      chat_id: props.getProperty('TG_CHAT_ID'), text: data.text,
+      // Без превью: иначе Telegram сам откроет ссылку на заявку и скачает её данные за рубеж.
+      disable_web_page_preview: 'true'
+    } }
   );
   return ContentService.createTextOutput(res.getContentText()).setMimeType(ContentService.MimeType.JSON);
 }

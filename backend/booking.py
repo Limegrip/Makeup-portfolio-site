@@ -8,6 +8,7 @@ POST {service, date, time, name, phone, address, comment, consent, website}
 чтобы переключиться на календарь Насти, код менять не нужно.
 """
 import base64
+import html
 import json
 import os
 import re
@@ -179,18 +180,20 @@ def create_booking(data, cal=None, now=None):
         # Доказательство согласия (ч. 3 ст. 9 152-ФЗ: доказать его получение — на операторе).
         f"Согласие на обработку ПДн отмечено в форме на сайте {now:%d.%m.%Y %H:%M} МСК.",
     ]))
-    cal.save_event(_ical(start, end, f"Заявка: {title} — {name}", details, address))
+    uid = f"{uuid.uuid4()}@nastya-site"   # случайный — по нему же открывается страничка заявки
+    cal.save_event(_ical(uid, start, end, f"Заявка: {title} — {name}", details, address))
     # В Telegram — без имени, телефона и адреса: сообщение идёт через серверы Google
     # и Telegram за рубежом, а это трансграничная передача ПДн (ст. 12 152-ФЗ).
-    # Контакты клиентки остаются только в Яндекс Календаре, в России: в сообщении
-    # ссылка на этот день календаря, по ней Настя видит имя, телефон и адрес.
+    # Контакты клиентки остаются в России: в сообщении только ссылка на страничку
+    # заявки (view_booking) — её отдаёт эта же функция из Яндекс Календаря.
+    # Превью ссылок посредник отключает, иначе Telegram сам скачал бы страничку.
     error = _notify(f"Новая заявка на запись\n{title}\n{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}\n"
-                    f"Открыть заявку: https://calendar.yandex.ru/day?show_date={start:%Y-%m-%d}")
+                    f"Открыть заявку: {os.environ.get('PUBLIC_URL', '')}?view={uid}")
     # Заявка уже в календаре, поэтому ok в любом случае; telegram — для диагностики.
     return 200, {"ok": True, "telegram": error or "sent"}
 
 
-def _ical(start, end, summary, description, location):
+def _ical(uid, start, end, summary, description, location):
     def esc(s):
         return s.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\n", "\\n")
 
@@ -198,7 +201,7 @@ def _ical(start, end, summary, description, location):
     lines = [
         "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//nastya-site//booking//RU",
         "BEGIN:VEVENT",
-        f"UID:{uuid.uuid4()}@nastya-site",
+        f"UID:{uid}",
         f"DTSTAMP:{datetime.now(ZoneInfo('UTC')):{fmt}}Z",
         f"DTSTART;TZID=Europe/Moscow:{start:{fmt}}",
         f"DTEND;TZID=Europe/Moscow:{end:{fmt}}",
@@ -209,6 +212,34 @@ def _ical(start, end, summary, description, location):
         "END:VEVENT", "END:VCALENDAR",
     ]
     return "\r\n".join(line for line in lines if line)
+
+
+def view_booking(uid, cal=None):
+    """Страничка заявки для Насти. Ссылку знает только она: uid — случайный UUID."""
+    if not re.fullmatch(r"[0-9a-f-]{36}@nastya-site", uid or ""):
+        return 404, "<p>Заявка не найдена.</p>"
+    try:
+        ev = (cal or _calendar()).event_by_uid(uid).icalendar_component
+    except Exception:  # noqa: BLE001 — удалена из календаря или не существует
+        return 404, "<p>Заявка не найдена — возможно, её уже удалили из календаря.</p>"
+    start, end = _as_dt(ev["DTSTART"].dt), _as_dt(ev["DTEND"].dt)
+    rows = []
+    for line in str(ev.get("DESCRIPTION", "")).splitlines():
+        key, _, value = line.partition(": ")
+        if key == "Телефон":
+            tel = re.sub(r"[^\d+]", "", value)
+            rows.append(f'<p><b>Телефон:</b> <a href="tel:{tel}">{html.escape(value)}</a></p>')
+        elif line.strip():
+            rows.append(f"<p>{html.escape(line)}</p>")
+    return 200, (f"<h1>{html.escape(str(ev.get('SUMMARY', 'Заявка')))}</h1>"
+                 f"<p><b>{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}</b></p>" + "".join(rows))
+
+
+VIEW_PAGE = """<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Заявка</title><style>body{font:17px/1.5 -apple-system,sans-serif;margin:0 auto;max-width:560px;
+padding:24px;background:#f7f1e8;color:#241a12}h1{font-size:22px}a{color:#8a4a24;font-weight:600}</style>
+</head><body>%s</body></html>"""
 
 
 def _notify(text):
@@ -255,6 +286,16 @@ def handler(event, context):
         "Content-Type": "application/json; charset=utf-8",
     }
     method = event.get("httpMethod", "GET")
+    params = event.get("queryStringParameters") or {}
+    if method == "GET" and "view" in params:
+        try:
+            status, body = view_booking(params["view"])
+        except Exception as err:  # noqa: BLE001
+            print("view error:", repr(err))
+            status, body = 502, "<p>Календарь недоступен, попробуйте позже.</p>"
+        return {"statusCode": status, "body": VIEW_PAGE % body, "headers": {
+            "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store",
+            "X-Robots-Tag": "noindex", "Referrer-Policy": "no-referrer"}}
     if method == "OPTIONS":
         return {"statusCode": 204, "headers": headers, "body": ""}
     try:
@@ -264,7 +305,7 @@ def handler(event, context):
                 body = base64.b64decode(body).decode()
             status, payload = create_booking(json.loads(body))
         else:
-            status, payload = get_slots(event.get("queryStringParameters") or {})
+            status, payload = get_slots(params)
     except Exception as err:  # noqa: BLE001 — клиентке нужен ответ, детали — в логи
         print("error:", repr(err))
         status, payload = 502, {"error": "Календарь недоступен, напишите в Telegram"}

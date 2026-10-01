@@ -56,8 +56,21 @@ assert "Согласие на обработку ПДн отмечено" in cal
 sent = []
 booking._notify = lambda text: sent.append(text)
 create_booking({**form, "date": "2026-10-06"}, FakeCal([]), NOW)
-assert sent and not any(x in sent[0] for x in ("Мария", "999", "Химки")), sent
-assert "calendar.yandex.ru/day?show_date=2026-10-06" in sent[0], sent
+assert sent and not any(x in sent[0] for x in ("Мария", "123-45-67", "Химки")), sent
+assert "?view=" in sent[0] and "@nastya-site" in sent[0], sent
+
+# Страничка заявки: собирается из сохранённого события, телефон — ссылка для звонка.
+import icalendar
+class UidCal(FakeCal):
+    def event_by_uid(self, uid):
+        ev = next(c for c in icalendar.Calendar.from_ical(self.saved[-1]).walk("VEVENT") if str(c["UID"]) == uid)
+        return type("Obj", (), {"icalendar_component": ev})()
+uc = UidCal([])
+create_booking({**form, "date": "2026-10-07"}, uc, NOW)
+uid = sent[-1].split("?view=")[1]
+status, page = booking.view_booking(uid, uc)
+assert status == 200 and "Мария" in page and 'href="tel:+79991234567"' in page, page
+assert booking.view_booking("../etc", uc)[0] == 404
 assert create_booking(form, FakeCal([(at(10), at(13))]), NOW)[0] == 409
 assert create_booking({**form, "phone": "abc"}, cal, NOW)[0] == 400
 assert create_booking({**form, "consent": False}, cal, NOW)[0] == 400
