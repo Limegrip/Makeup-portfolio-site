@@ -1,3 +1,4 @@
+import json
 """Проверка логики записи без Яндекса: python3 backend/test_booking.py"""
 from datetime import date, datetime, timedelta
 
@@ -71,6 +72,13 @@ uid = sent[-1].split("?view=")[1]
 status, page = booking.view_booking(uid, uc)
 assert status == 200 and "Мария" in page and 'href="tel:+79991234567"' in page, page
 assert booking.view_booking("../etc", uc)[0] == 404
+
+# GET по ссылке отдаёт только кнопку — без данных (их увидел бы робот превью).
+booking._calendar = lambda: uc
+shell = booking.handler({"httpMethod": "GET", "queryStringParameters": {"view": uid}}, None)
+assert shell["statusCode"] == 200 and "Мария" not in shell["body"] and "Показать заявку" in shell["body"]
+shown = booking.handler({"httpMethod": "POST", "body": json.dumps({"view": uid})}, None)
+assert "Мария" in shown["body"], shown
 assert create_booking(form, FakeCal([(at(10), at(13))]), NOW)[0] == 409
 assert create_booking({**form, "phone": "abc"}, cal, NOW)[0] == 400
 assert create_booking({**form, "consent": False}, cal, NOW)[0] == 400

@@ -235,10 +235,17 @@ def view_booking(uid, cal=None):
                  f"<p><b>{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}</b></p>" + "".join(rows))
 
 
+# Данные заявки страничка получает отдельным POST по кнопке: роботы превью
+# (Telegram и др.) скачивают только саму страницу и кнопок не нажимают.
+VIEW_SHELL = """<div id="b"><p>Данные клиентки откроются по кнопке.</p>
+<button onclick="fetch(location.pathname,{method:'POST',body:JSON.stringify({view:%s})})
+.then(r=>r.text()).then(t=>{document.getElementById('b').innerHTML=t})">Показать заявку</button></div>"""
+
 VIEW_PAGE = """<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
 <title>Заявка</title><style>body{font:17px/1.5 -apple-system,sans-serif;margin:0 auto;max-width:560px;
-padding:24px;background:#f7f1e8;color:#241a12}h1{font-size:22px}a{color:#8a4a24;font-weight:600}</style>
+padding:24px;background:#f7f1e8;color:#241a12}h1{font-size:22px}a{color:#8a4a24;font-weight:600}
+button{font:inherit;font-weight:600;padding:12px 22px;border:0;border-radius:4px;background:#8a4a24;color:#fff}</style>
 </head><body>%s</body></html>"""
 
 
@@ -287,15 +294,11 @@ def handler(event, context):
     }
     method = event.get("httpMethod", "GET")
     params = event.get("queryStringParameters") or {}
+    page_headers = {"Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store",
+                    "X-Robots-Tag": "noindex", "Referrer-Policy": "no-referrer"}
     if method == "GET" and "view" in params:
-        try:
-            status, body = view_booking(params["view"])
-        except Exception as err:  # noqa: BLE001
-            print("view error:", repr(err))
-            status, body = 502, "<p>Календарь недоступен, попробуйте позже.</p>"
-        return {"statusCode": status, "body": VIEW_PAGE % body, "headers": {
-            "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store",
-            "X-Robots-Tag": "noindex", "Referrer-Policy": "no-referrer"}}
+        shell = VIEW_SHELL % html.escape(json.dumps(params["view"]), quote=True)
+        return {"statusCode": 200, "body": VIEW_PAGE % shell, "headers": page_headers}
     if method == "OPTIONS":
         return {"statusCode": 204, "headers": headers, "body": ""}
     try:
@@ -303,7 +306,11 @@ def handler(event, context):
             body = event.get("body") or "{}"
             if event.get("isBase64Encoded"):
                 body = base64.b64decode(body).decode()
-            status, payload = create_booking(json.loads(body))
+            data = json.loads(body)
+            if "view" in data:  # кнопка «Показать заявку» на страничке
+                status, fragment = view_booking(str(data["view"]))
+                return {"statusCode": status, "body": fragment, "headers": page_headers}
+            status, payload = create_booking(data)
         else:
             status, payload = get_slots(params)
     except Exception as err:  # noqa: BLE001 — клиентке нужен ответ, детали — в логи
