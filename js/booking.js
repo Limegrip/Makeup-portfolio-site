@@ -122,6 +122,14 @@ if (bk && bkApi) {
     state.month = `${next.getFullYear()}-${pad(next.getMonth() + 1)}`;
     load();
   };
+  // В студии — показываем её адрес; выезд — спрашиваем адрес клиентки.
+  const showPlace = () => {
+    const place = form.elements.place.value;
+    form.querySelector('.bk-studio').hidden = place !== 'studio';
+    form.querySelector('.bk-visit').hidden = place !== 'visit';
+  };
+  form.querySelectorAll('input[name="place"]').forEach(r => r.addEventListener('change', showPlace));
+
   prevBtn.addEventListener('click', () => shiftMonth(-1));
   form.querySelector('.bk-next').addEventListener('click', () => shiftMonth(1));
 
@@ -129,6 +137,8 @@ if (bk && bkApi) {
     e.preventDefault();
     const f = form.elements;
     const problem = !state.time ? 'Выберите дату и время'
+      : !f.place.value ? 'Выберите: в студии или выезд'
+      : f.place.value === 'visit' && !f.address.value.trim() ? 'Укажите адрес выезда'
       : !f.name.value.trim() ? 'Укажите имя'
       : !f.phone.value.trim() ? 'Укажите телефон'
       : !f.consent.checked ? 'Нужно согласие на обработку данных'
@@ -144,7 +154,8 @@ if (bk && bkApi) {
         headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
         body: JSON.stringify({
           service: state.service, date: state.date, time: state.time,
-          name: f.name.value, phone: f.phone.value, address: f.address.value,
+          name: f.name.value, phone: f.phone.value, place: f.place.value,
+          address: f.place.value === 'visit' ? f.address.value : '',
           comment: f.comment.value, consent: f.consent.checked, website: f.website.value
         })
       });
@@ -155,6 +166,7 @@ if (bk && bkApi) {
         return;
       }
       form.reset();
+      showPlace();
       state.date = state.time = '';
       await load();
       status.textContent = 'Заявка отправлена! Анастасия свяжется с вами, чтобы подтвердить запись.';

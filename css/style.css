@@ -606,6 +606,16 @@ section { padding: 5rem 0; }
 .bk-consent { display: flex !important; align-items: flex-start; gap: 0.6rem; font-weight: 400 !important; }
 .bk-consent input { margin-top: 0.2rem; accent-color: var(--brown-strong); }
 .bk-trap { position: absolute; left: -9999px; }
+.bk-place { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.bk-place label {
+  display: flex; align-items: center; gap: 0.45rem; cursor: pointer;
+  border: 1px solid var(--border); border-radius: 999px; padding: 0.5rem 1.1rem;
+  background: var(--white); font-weight: 600; color: var(--brown); white-space: nowrap;
+}
+.bk-place label:has(input:checked) { border-color: var(--brown-strong); background: var(--brown-strong); color: var(--white); }
+.bk-place input { accent-color: var(--brown-strong); margin: 0; }
+.bk-studio { margin: 0; font-size: 0.9rem; color: var(--brown); }
+.bk-fields [hidden] { display: none; }
 .bk-note { font-weight: 400; font-size: 0.78rem; color: #8a7a6a; }
 .bk-consent a, .footer-bar a { text-decoration: underline; }
 

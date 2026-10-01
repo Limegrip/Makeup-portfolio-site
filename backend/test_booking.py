@@ -82,6 +82,14 @@ assert "Мария" in shown["body"], shown
 assert create_booking(form, FakeCal([(at(10), at(13))]), NOW)[0] == 409
 assert create_booking({**form, "phone": "abc"}, cal, NOW)[0] == 400
 assert create_booking({**form, "consent": False}, cal, NOW)[0] == 400
+# Место: выезд без адреса — нельзя; студия — адрес студии в событии.
+assert create_booking({**form, "place": "visit", "address": ""}, FakeCal([]), NOW)[0] == 400
+assert create_booking({**form, "place": "moon"}, FakeCal([]), NOW)[0] == 400
+sc = FakeCal([])
+assert create_booking({**form, "place": "studio"}, sc, NOW)[0] == 200
+assert "Ильинка" in sc.saved[0] and "Химки" not in sc.saved[0]
+vc = FakeCal([])
+assert create_booking({**form, "place": "visit"}, vc, NOW)[0] == 200 and "LOCATION:Химки" in vc.saved[0]
 assert create_booking({**form, "time": "10:15"}, FakeCal([]), NOW)[0] == 409   # не по сетке
 bot = FakeCal([])
 assert create_booking({**form, "website": "spam"}, bot, NOW)[0] == 200 and not bot.saved

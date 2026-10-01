@@ -35,6 +35,7 @@ OPEN, CLOSE = time(10, 0), time(22, 0)               # запись с сайт�
 STEP_MIN = 30
 NOTICE_HOURS = 6                                     # не раньше, чем через 6 ч
 HORIZON_DAYS = 365                                   # свадьбы бронируют заранее
+STUDIO = "бьюти-коворкинг «Стрелки», Москва, ул. Ильинка, 3/8, стр. 1"
 
 
 def free_starts(day, minutes, busy, now):
@@ -151,6 +152,13 @@ def create_booking(data, cal=None, now=None):
         return 400, {"error": "Укажите имя"}
     if not PHONE_RE.match(phone):
         return 400, {"error": "Проверьте номер телефона"}
+    place = data.get("place")  # старая форма поле не шлёт — тогда место не указано
+    if place not in (None, "studio", "visit"):
+        return 400, {"error": "Выберите: в студии или выезд"}
+    if place == "visit" and not address:
+        return 400, {"error": "Укажите адрес выезда"}
+    if place == "studio":
+        address = ""
     if not data.get("consent"):
         return 400, {"error": "Нужно согласие на обработку данных"}
     try:
@@ -173,6 +181,8 @@ def create_booking(data, cal=None, now=None):
         f"Услуга: {title}",
         f"Имя: {name}",
         f"Телефон: {phone}",
+        place == "studio" and f"Место: в студии ({STUDIO})",
+        place == "visit" and "Место: выезд",
         address and f"Адрес: {address}",
         comment and f"Комментарий: {comment}",
         "",
@@ -181,13 +191,15 @@ def create_booking(data, cal=None, now=None):
         f"Согласие на обработку ПДн отмечено в форме на сайте {now:%d.%m.%Y %H:%M} МСК.",
     ]))
     uid = f"{uuid.uuid4()}@nastya-site"   # случайный — по нему же открывается страничка заявки
-    cal.save_event(_ical(uid, start, end, f"Заявка: {title} — {name}", details, address))
+    location = STUDIO if place == "studio" else address
+    cal.save_event(_ical(uid, start, end, f"Заявка: {title} — {name}", details, location))
     # В Telegram — без имени, телефона и адреса: сообщение идёт через серверы Google
     # и Telegram за рубежом, а это трансграничная передача ПДн (ст. 12 152-ФЗ).
     # Контакты клиентки остаются в России: в сообщении только ссылка на страничку
     # заявки (view_booking) — её отдаёт эта же функция из Яндекс Календаря.
     # Превью ссылок посредник отключает, иначе Telegram сам скачал бы страничку.
-    error = _notify(f"Новая заявка на запись\n{title}\n{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}\n"
+    where = {"studio": "В студии\n", "visit": "Выезд\n"}.get(place, "")
+    error = _notify(f"Новая заявка на запись\n{title}\n{where}{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}\n"
                     f"Открыть заявку: {os.environ.get('PUBLIC_URL', '')}?view={uid}")
     # Заявка уже в календаре, поэтому ok в любом случае; telegram — для диагностики.
     return 200, {"ok": True, "telegram": error or "sent"}
