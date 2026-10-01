@@ -272,6 +272,8 @@ section { padding: 5rem 0; }
   white-space: nowrap;
 }
 .price-note { margin: 0.9rem 0 0; font-size: 0.82rem; line-height: 1.5; color: #cbb79a; }
+.price-note a, .cta-address a { text-decoration: underline; }
+.cta .cta-address { margin: -1rem 0 1.8rem; font-size: 0.9rem; opacity: 0.75; }
 
 /* Portfolio banner */
 /* Разделитель перед портфолио: типографика, без фото —
