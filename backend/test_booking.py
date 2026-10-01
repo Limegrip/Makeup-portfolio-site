@@ -50,6 +50,13 @@ form = {"service": "wedding", "date": "2026-10-05", "time": "10:00", "name": "М
 cal = FakeCal([])
 assert create_booking(form, cal, NOW) == (200, {"ok": True, "telegram": "not configured"}) and len(cal.saved) == 1
 assert "STATUS:TENTATIVE" in cal.saved[0] and "DTSTART;TZID=Europe/Moscow:20261005T100000" in cal.saved[0]
+assert "Согласие на обработку ПДн дано" in cal.saved[0]
+
+# В Telegram не уходят персональные данные — только услуга и время.
+sent = []
+booking._notify = lambda text: sent.append(text)
+create_booking({**form, "date": "2026-10-06"}, FakeCal([]), NOW)
+assert sent and not any(x in sent[0] for x in ("Мария", "999", "Химки")), sent
 assert create_booking(form, FakeCal([(at(10), at(13))]), NOW)[0] == 409
 assert create_booking({**form, "phone": "abc"}, cal, NOW)[0] == 400
 assert create_booking({**form, "consent": False}, cal, NOW)[0] == 400

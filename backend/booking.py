@@ -34,6 +34,7 @@ OPEN, CLOSE = time(10, 0), time(22, 0)               # запись с сайт�
 STEP_MIN = 30
 NOTICE_HOURS = 6                                     # не раньше, чем через 6 ч
 HORIZON_DAYS = 365                                   # свадьбы бронируют заранее
+CONSENT_VERSION = "от 02.10.2026"                    # дата редакции consent.html
 
 
 def free_starts(day, minutes, busy, now):
@@ -176,9 +177,15 @@ def create_booking(data, cal=None, now=None):
         comment and f"Комментарий: {comment}",
         "",
         "Заявка с сайта — ждёт подтверждения. Созвонитесь и поправьте событие при необходимости.",
+        # Доказательство согласия (ч. 3 ст. 9 152-ФЗ: доказать его получение — на операторе).
+        f"Согласие на обработку ПДн дано на сайте {now:%d.%m.%Y %H:%M} МСК, редакция {CONSENT_VERSION}.",
     ]))
     cal.save_event(_ical(start, end, f"Заявка: {title} — {name}", details, address))
-    error = _notify(f"Новая заявка на запись\n{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}\n{details}")
+    # В Telegram — без имени, телефона и адреса: сообщение идёт через серверы Google
+    # и Telegram за рубежом, а это трансграничная передача ПДн (ст. 12 152-ФЗ).
+    # Контакты клиентки остаются только в Яндекс Календаре, в России.
+    error = _notify(f"Новая заявка на запись\n{title}\n{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}\n"
+                    "Контакты клиентки — в Яндекс Календаре.")
     # Заявка уже в календаре, поэтому ok в любом случае; telegram — для диагностики.
     return 200, {"ok": True, "telegram": error or "sent"}
 
