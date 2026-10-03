@@ -529,9 +529,6 @@ section { padding: 5rem 0; }
 .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
 .footer-links a { display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
 .footer-links a:hover { color: #cbb79a; }
-/* Страницы услуг — отдельной строкой в подвале (внутренние ссылки для поиска). */
-.footer-pages { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.4rem; padding-bottom: 1.6rem; font-size: 0.88rem; }
-.footer-pages a:hover { color: #cbb79a; }
 .footer-icon { width: 16px; height: 16px; flex-shrink: 0; }
 .footer-disclaimer {
   max-width: 1180px;
@@ -548,6 +545,19 @@ section { padding: 5rem 0; }
   font-size: 0.8rem;
   padding: 0.8rem 24px;
 }
+
+/* Строка «Также: …» под списком услуг на главной — ссылки на страницы услуг. */
+.services-more { margin-top: 1.4rem; color: #cbb79a; font-size: 0.95rem; }
+.services-more a { color: var(--cream); text-decoration: underline; text-underline-offset: 3px; }
+.services-more a:hover { color: #cbb79a; }
+
+/* Блок «Другие услуги» внизу страниц услуг. */
+.lp-related { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.lp-related a { display: block; padding: 1.3rem 1.4rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--white); transition: border-color 0.2s ease; }
+.lp-related a:hover { border-color: var(--brown-strong); }
+.lp-related h3 { font-family: var(--serif); font-size: 1.35rem; margin: 0 0 0.3rem; }
+.lp-related p { margin: 0; font-size: 0.9rem; color: #5a4a3c; }
+@media (max-width: 760px) { .lp-related { grid-template-columns: minmax(0, 1fr); } }
 
 /* Страницы услуг (wedding/, makeup-for-you/) */
 .lp section { padding-top: 0; padding-bottom: 0; }   /* боковые отступы — от .container */
