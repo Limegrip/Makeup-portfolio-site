@@ -546,7 +546,7 @@ section { padding: 5rem 0; }
   padding: 0.8rem 24px;
 }
 
-/* Страницы услуг (svadebnyj-vizazhist/, uroki-makiyazha/) */
+/* Страницы услуг (wedding/, makeup-for-you/) */
 .lp section { padding-top: 0; padding-bottom: 0; }   /* боковые отступы — от .container */
 .lp .section-title { font-size: clamp(1.6rem, 3vw, 2.1rem); line-height: 1.2; }
 .lp-crumbs { padding-top: 1.4rem; font-size: 0.85rem; color: #8a7a6a; }
