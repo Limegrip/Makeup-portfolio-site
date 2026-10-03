@@ -529,6 +529,9 @@ section { padding: 5rem 0; }
 .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
 .footer-links a { display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
 .footer-links a:hover { color: #cbb79a; }
+/* Страницы услуг — отдельной строкой в подвале (внутренние ссылки для поиска). */
+.footer-pages { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.4rem; padding-bottom: 1.6rem; font-size: 0.88rem; }
+.footer-pages a:hover { color: #cbb79a; }
 .footer-icon { width: 16px; height: 16px; flex-shrink: 0; }
 .footer-disclaimer {
   max-width: 1180px;
@@ -567,7 +570,7 @@ section { padding: 5rem 0; }
 .lp-gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 20%; border-radius: var(--radius); }
 .lp-gallery figcaption { font-size: 0.85rem; color: #8a7a6a; margin-top: 0.4rem; }
 .lp-more { margin-top: 1.5rem; }
-.lp-more a, .lp-steps a { color: var(--brown-strong); font-weight: 600; text-decoration: underline; }
+.lp-more a, .lp-steps a, .lp-two a { color: var(--brown-strong); font-weight: 600; text-decoration: underline; }
 .lp .lp-cta { padding-top: 4rem; padding-bottom: 5rem; }
 .lp-steps { padding-left: 1.2rem; color: #5a4a3c; max-width: 640px; }
 .lp-steps li { margin-bottom: 0.6rem; }
