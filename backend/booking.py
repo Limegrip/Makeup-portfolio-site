@@ -8,6 +8,7 @@ POST {service, date, time, name, phone, address, comment, consent, website}
 чтобы переключиться на календарь Насти, код менять не нужно.
 """
 import base64
+import html
 import json
 import os
 import re
@@ -34,6 +35,7 @@ OPEN, CLOSE = time(10, 0), time(22, 0)               # запись с сайт�
 STEP_MIN = 30
 NOTICE_HOURS = 6                                     # не раньше, чем через 6 ч
 HORIZON_DAYS = 365                                   # свадьбы бронируют заранее
+STUDIO = "бьюти-коворкинг «Стрелки», Москва, ул. Ильинка, 3/8, стр. 1"
 
 
 def free_starts(day, minutes, busy, now):
@@ -150,6 +152,13 @@ def create_booking(data, cal=None, now=None):
         return 400, {"error": "Укажите имя"}
     if not PHONE_RE.match(phone):
         return 400, {"error": "Проверьте номер телефона"}
+    place = data.get("place")  # старая форма поле не шлёт — тогда место не указано
+    if place not in (None, "studio", "visit"):
+        return 400, {"error": "Выберите: в студии или выезд"}
+    if place == "visit" and not address:
+        return 400, {"error": "Укажите адрес выезда"}
+    if place == "studio":
+        address = ""
     if not data.get("consent"):
         return 400, {"error": "Нужно согласие на обработку данных"}
     try:
@@ -172,18 +181,31 @@ def create_booking(data, cal=None, now=None):
         f"Услуга: {title}",
         f"Имя: {name}",
         f"Телефон: {phone}",
+        place == "studio" and f"Место: в студии ({STUDIO})",
+        place == "visit" and "Место: выезд",
         address and f"Адрес: {address}",
         comment and f"Комментарий: {comment}",
         "",
         "Заявка с сайта — ждёт подтверждения. Созвонитесь и поправьте событие при необходимости.",
+        # Доказательство согласия (ч. 3 ст. 9 152-ФЗ: доказать его получение — на операторе).
+        f"Согласие на обработку ПДн отмечено в форме на сайте {now:%d.%m.%Y %H:%M} МСК.",
     ]))
-    cal.save_event(_ical(start, end, f"Заявка: {title} — {name}", details, address))
-    error = _notify(f"Новая заявка на запись\n{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}\n{details}")
+    uid = f"{uuid.uuid4()}@nastya-site"   # случайный — по нему же открывается страничка заявки
+    location = STUDIO if place == "studio" else address
+    cal.save_event(_ical(uid, start, end, f"Заявка: {title} — {name}", details, location))
+    # В Telegram — без имени, телефона и адреса: сообщение идёт через серверы Google
+    # и Telegram за рубежом, а это трансграничная передача ПДн (ст. 12 152-ФЗ).
+    # Контакты клиентки остаются в России: в сообщении только ссылка на страничку
+    # заявки (view_booking) — её отдаёт эта же функция из Яндекс Календаря.
+    # Превью ссылок посредник отключает, иначе Telegram сам скачал бы страничку.
+    where = {"studio": "В студии\n", "visit": "Выезд\n"}.get(place, "")
+    error = _notify(f"Новая заявка на запись\n{title}\n{where}{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}\n"
+                    f"Открыть заявку: {os.environ.get('PUBLIC_URL', '')}?view={uid}")
     # Заявка уже в календаре, поэтому ok в любом случае; telegram — для диагностики.
     return 200, {"ok": True, "telegram": error or "sent"}
 
 
-def _ical(start, end, summary, description, location):
+def _ical(uid, start, end, summary, description, location):
     def esc(s):
         return s.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\n", "\\n")
 
@@ -191,7 +213,7 @@ def _ical(start, end, summary, description, location):
     lines = [
         "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//nastya-site//booking//RU",
         "BEGIN:VEVENT",
-        f"UID:{uuid.uuid4()}@nastya-site",
+        f"UID:{uid}",
         f"DTSTAMP:{datetime.now(ZoneInfo('UTC')):{fmt}}Z",
         f"DTSTART;TZID=Europe/Moscow:{start:{fmt}}",
         f"DTEND;TZID=Europe/Moscow:{end:{fmt}}",
@@ -202,6 +224,41 @@ def _ical(start, end, summary, description, location):
         "END:VEVENT", "END:VCALENDAR",
     ]
     return "\r\n".join(line for line in lines if line)
+
+
+def view_booking(uid, cal=None):
+    """Страничка заявки для Насти. Ссылку знает только она: uid — случайный UUID."""
+    if not re.fullmatch(r"[0-9a-f-]{36}@nastya-site", uid or ""):
+        return 404, "<p>Заявка не найдена.</p>"
+    try:
+        ev = (cal or _calendar()).event_by_uid(uid).icalendar_component
+    except Exception:  # noqa: BLE001 — удалена из календаря или не существует
+        return 404, "<p>Заявка не найдена — возможно, её уже удалили из календаря.</p>"
+    start, end = _as_dt(ev["DTSTART"].dt), _as_dt(ev["DTEND"].dt)
+    rows = []
+    for line in str(ev.get("DESCRIPTION", "")).splitlines():
+        key, _, value = line.partition(": ")
+        if key == "Телефон":
+            tel = re.sub(r"[^\d+]", "", value)
+            rows.append(f'<p><b>Телефон:</b> <a href="tel:{tel}">{html.escape(value)}</a></p>')
+        elif line.strip():
+            rows.append(f"<p>{html.escape(line)}</p>")
+    return 200, (f"<h1>{html.escape(str(ev.get('SUMMARY', 'Заявка')))}</h1>"
+                 f"<p><b>{start:%d.%m.%Y}, {start:%H:%M}–{end:%H:%M}</b></p>" + "".join(rows))
+
+
+# Данные заявки страничка получает отдельным POST по кнопке: роботы превью
+# (Telegram и др.) скачивают только саму страницу и кнопок не нажимают.
+VIEW_SHELL = """<div id="b"><p>Данные клиентки откроются по кнопке.</p>
+<button onclick="fetch(location.pathname,{method:'POST',body:JSON.stringify({view:%s})})
+.then(r=>r.text()).then(t=>{document.getElementById('b').innerHTML=t})">Показать заявку</button></div>"""
+
+VIEW_PAGE = """<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Заявка</title><style>body{font:17px/1.5 -apple-system,sans-serif;margin:0 auto;max-width:560px;
+padding:24px;background:#f7f1e8;color:#241a12}h1{font-size:22px}a{color:#8a4a24;font-weight:600}
+button{font:inherit;font-weight:600;padding:12px 22px;border:0;border-radius:4px;background:#8a4a24;color:#fff}</style>
+</head><body>%s</body></html>"""
 
 
 def _notify(text):
@@ -248,6 +305,12 @@ def handler(event, context):
         "Content-Type": "application/json; charset=utf-8",
     }
     method = event.get("httpMethod", "GET")
+    params = event.get("queryStringParameters") or {}
+    page_headers = {"Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store",
+                    "X-Robots-Tag": "noindex", "Referrer-Policy": "no-referrer"}
+    if method == "GET" and "view" in params:
+        shell = VIEW_SHELL % html.escape(json.dumps(params["view"]), quote=True)
+        return {"statusCode": 200, "body": VIEW_PAGE % shell, "headers": page_headers}
     if method == "OPTIONS":
         return {"statusCode": 204, "headers": headers, "body": ""}
     try:
@@ -255,9 +318,13 @@ def handler(event, context):
             body = event.get("body") or "{}"
             if event.get("isBase64Encoded"):
                 body = base64.b64decode(body).decode()
-            status, payload = create_booking(json.loads(body))
+            data = json.loads(body)
+            if "view" in data:  # кнопка «Показать заявку» на страничке
+                status, fragment = view_booking(str(data["view"]))
+                return {"statusCode": status, "body": fragment, "headers": page_headers}
+            status, payload = create_booking(data)
         else:
-            status, payload = get_slots(event.get("queryStringParameters") or {})
+            status, payload = get_slots(params)
     except Exception as err:  # noqa: BLE001 — клиентке нужен ответ, детали — в логи
         print("error:", repr(err))
         status, payload = 502, {"error": "Календарь недоступен, напишите в Telegram"}

@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Анастасия Курдюмова — визажист и свадебный стилист в Москве</title>
 <meta name="description" content="Визажист и свадебный стилист в Москве. Свадебные образы, вечерний и дневной макияж, причёски, обучение визажу. Запись через Telegram.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Marck+Script&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="canonical" href="https://limegrip.github.io/Makeup-portfolio-site/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -36,7 +34,7 @@
   "telephone": "+7 977 669-10-54",
   "priceRange": "7000-28000 RUB",
   "areaServed": "Москва и Московская область",
-  "address": { "@type": "PostalAddress", "addressLocality": "Москва", "addressCountry": "RU" },
+  "address": { "@type": "PostalAddress", "streetAddress": "ул. Ильинка, 3/8, стр. 1", "addressLocality": "Москва", "addressCountry": "RU" },
   "sameAs": [
     "https://t.me/NastyaKurdyumova",
     "https://www.instagram.com/anastasia.kurdumova/"
@@ -213,6 +211,7 @@
           <div><dt>Полный образ</dt><dd>13 000 ₽</dd></div>
         </dl>
         <p class="price-note">Полный образ — макияж, причёска и консультация по образу.</p>
+        <p class="price-note">Студия — бьюти-коворкинг «Стрелки», <a href="https://yandex.ru/maps/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%98%D0%BB%D1%8C%D0%B8%D0%BD%D0%BA%D0%B0%2C%203%2F8%D1%811" target="_blank" rel="noopener">ул. Ильинка, 3/8, стр. 1</a>, м. Площадь Революции.</p>
       </div>
       <div class="price-col">
         <p class="eyebrow eyebrow-light">Сборы на выезде</p>
@@ -543,7 +542,7 @@
           </div>
           <div class="why-item">
             <span class="why-num">03</span>
-            <div><h3>Премиальная косметика</h3><p>Стойкие продукты для фото- и видеосъёмки.</p></div>
+            <div><h3>Премиальная косметика</h3><p>Работаю на Dior и Charlotte Tilbury — стойкие продукты для фото- и видеосъёмки.</p></div>
           </div>
           <div class="why-item">
             <span class="why-num">04</span>
@@ -655,10 +654,15 @@
           <div class="bk-fields">
             <label>Имя<input name="name" autocomplete="name" maxlength="80" required></label>
             <label>Телефон<input name="phone" type="tel" autocomplete="tel" maxlength="20" placeholder="+7 999 123-45-67" required></label>
-            <label class="bk-wide">Адрес выезда<input name="address" autocomplete="street-address" maxlength="200" placeholder="Город, улица — чтобы рассчитать дорогу"></label>
-            <label class="bk-wide">Комментарий<textarea name="comment" rows="3" maxlength="500" placeholder="Сколько человек, к какому часу нужно быть готовой, пожелания"></textarea></label>
+            <div class="bk-wide bk-place" role="radiogroup" aria-label="Где делаем образ">
+              <label><input type="radio" name="place" value="studio"> В студии</label>
+              <label><input type="radio" name="place" value="visit"> Выезд к вам</label>
+            </div>
+            <p class="bk-wide bk-studio" hidden>Студия — бьюти-коворкинг «Стрелки», Москва, ул. Ильинка, 3/8, стр. 1 · м. Площадь Революции</p>
+            <label class="bk-wide bk-visit" hidden>Адрес выезда<input name="address" autocomplete="street-address" maxlength="200" placeholder="Город, улица, дом — чтобы рассчитать дорогу"></label>
+            <label class="bk-wide">Комментарий<textarea name="comment" rows="3" maxlength="500" placeholder="Сколько человек, к какому часу нужно быть готовой, пожелания"></textarea><span class="bk-note">Сведения о здоровье, например об аллергии, лучше обсудить лично, а не писать здесь.</span></label>
             <input class="bk-trap" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <label class="bk-consent bk-wide"><input type="checkbox" name="consent" required> Согласна на обработку персональных данных для связи по записи</label>
+            <label class="bk-consent bk-wide"><input type="checkbox" name="consent" required> <span>Даю <a href="consent.html" target="_blank">согласие на обработку персональных данных</a> и ознакомлена с <a href="privacy.html" target="_blank">политикой обработки персональных данных</a></span></label>
           </div>
         </fieldset>
 
@@ -674,6 +678,7 @@
     <div class="container cta-inner">
       <h2>Готовы обсудить ваш образ?</h2>
       <p>Напишите в Telegram или MAX — или позвоните. Отвечу и подберу дату.</p>
+      <p class="cta-address">Студия: бьюти-коворкинг «Стрелки», <a href="https://yandex.ru/maps/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%98%D0%BB%D1%8C%D0%B8%D0%BD%D0%BA%D0%B0%2C%203%2F8%D1%811" target="_blank" rel="noopener">Москва, ул. Ильинка, 3/8, стр. 1</a> · м. Площадь Революции</p>
       <div class="cta-actions">
         <a class="btn btn-primary" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
           <svg class="btn-icon" aria-hidden="true"><use href="#icon-telegram"></use></svg>
@@ -744,7 +749,7 @@
     </div>
   </div>
   <p class="footer-disclaimer">* Instagram принадлежит компании Meta Platforms Inc., признанной экстремистской организацией, деятельность которой запрещена на территории Российской Федерации.</p>
-  <div class="footer-bar">© 2026 Anastasia Kurdumova. Все права защищены.</div>
+  <div class="footer-bar">© 2026 Anastasia Kurdumova. Все права защищены. · <a href="privacy.html">Политика обработки персональных данных</a></div>
 </footer>
 
 <script src="js/main.js"></script>
