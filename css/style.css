@@ -234,7 +234,9 @@ section { padding: 5rem 0; }
 }
 .service-row:hover { background: rgba(255,255,255,0.05); padding-left: calc(clamp(24px, 5vw, 72px) + 10px); }
 .service-num { font-family: var(--serif); color: #cbb79a; font-size: 1.1rem; }
-.service-name { font-family: var(--serif); font-size: clamp(1.3rem, 2.6vw, 1.9rem); font-weight: 600; }
+.service-name { font-family: var(--serif); font-size: clamp(1.3rem, 2.6vw, 1.9rem); font-weight: 600; margin: 0; line-height: inherit; }
+/* Строка «Визажист · …» стоит внутри H1 ради поиска, но выглядит как прежде. */
+.hero-title .eyebrow { font-family: var(--sans); line-height: 1.5; }
 .service-desc { color: #cbb79a; font-size: 0.9rem; max-width: 360px; display: none; }
 .service-thumb {
   width: 64px;
