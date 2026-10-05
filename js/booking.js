@@ -15,7 +15,10 @@ if (bk && bkApi) {
   const daysBox = form.querySelector('.bk-days');
   const timesBox = form.querySelector('.bk-times');
   const monthName = form.querySelector('.bk-month-name');
+  const nextBtn = form.querySelector('.bk-next');
   const prevBtn = form.querySelector('.bk-prev');
+  const fallback = bk.querySelector('.bk-fallback');
+  const loadError = form.querySelector('.bk-load-error');
   const summary = form.querySelector('.bk-summary');
   const status = form.querySelector('.bk-status');
   const submit = form.querySelector('.bk-submit');
@@ -24,9 +27,20 @@ if (bk && bkApi) {
   const today = new Date();
   const thisMonth = `${today.getFullYear()}-${pad(today.getMonth() + 1)}`;
   const state = { service: '', month: thisMonth, date: '', time: '', services: [], days: {} };
+  // Со страницы услуги приходят с ?service=wedding — выбираем её сами. Ставим после первого
+  // ответа, когда список услуг известен: неизвестный id функция отклоняет целиком.
+  let wanted = new URLSearchParams(location.search).get('service') || '';
+  // Выпадающий список месяцев: свадьбу через полгода не листать стрелкой. 13 — запись на год вперёд.
+  const months = Array.from({ length: 13 }, (_, i) => new Date(today.getFullYear(), today.getMonth() + i));
+  const lastMonth = `${months[12].getFullYear()}-${pad(months[12].getMonth() + 1)}`;
+  monthName.replaceChildren(...months.map(d => {
+    const name = d.toLocaleDateString('ru', { month: 'long' });
+    return new Option(`${name[0].toUpperCase()}${name.slice(1)} ${d.getFullYear()}`,
+      `${d.getFullYear()}-${pad(d.getMonth() + 1)}`);
+  }));
   let request = 0; // ответы на устаревшие запросы (быстро листали месяцы) игнорируем
 
-  bk.querySelector('.bk-fallback').hidden = true;
+  fallback.hidden = true;
   form.hidden = false;
 
   const chip = (label, on, onClick) => {
@@ -59,9 +73,9 @@ if (bk && bkApi) {
 
   const renderDays = () => {
     const [y, m] = state.month.split('-').map(Number);
-    const name = new Date(y, m - 1).toLocaleDateString('ru', { month: 'long' });
-    monthName.textContent = `${name[0].toUpperCase()}${name.slice(1)} ${y}`;
+    monthName.value = state.month;
     prevBtn.disabled = state.month <= thisMonth;
+    nextBtn.disabled = state.month >= lastMonth;
 
     const cells = [];
     const offset = (new Date(y, m - 1, 1).getDay() + 6) % 7; // понедельник — первый
@@ -86,7 +100,7 @@ if (bk && bkApi) {
   const load = async () => {
     const id = ++request;
     daysBox.setAttribute('aria-busy', 'true');
-    status.textContent = '';
+    loadError.hidden = true;
     try {
       const params = new URLSearchParams({ month: state.month });
       if (state.service) params.set('service', state.service);
@@ -95,6 +109,12 @@ if (bk && bkApi) {
       if (id !== request) return;
       if (!res.ok) throw new Error(data.error);
       state.services = data.services;
+      if (wanted && wanted !== state.service && data.services.some(s => s.id === wanted)) {
+        state.service = wanted;
+        wanted = '';
+        return load();
+      }
+      wanted = '';
       state.service ||= data.services[0].id;
       state.days = data.days;
       if (!state.days[state.date]?.includes(state.time)) state.time = '';
@@ -106,10 +126,18 @@ if (bk && bkApi) {
     } catch (err) {
       if (id !== request) return;
       state.days = {};
+      daysBox.removeAttribute('aria-busy');
+      // Расписание не пришло ни разу — форма без услуг бесполезна, вместо неё контакты.
+      if (!state.services.length) {
+        form.hidden = true;
+        fallback.hidden = false;
+        return;
+      }
       // TypeError — сеть или CORS: текст браузера («Failed to fetch») клиентке ничего не скажет
-      status.textContent = err instanceof TypeError || !err.message
-        ? 'Не удалось загрузить расписание. Попробуйте позже или напишите в Telegram.'
+      loadError.textContent = err instanceof TypeError || !err.message
+        ? 'Не удалось загрузить свободные даты. Попробуйте ещё раз или напишите в Telegram.'
         : err.message;
+      loadError.hidden = false;
     }
     daysBox.removeAttribute('aria-busy');
     renderDays();
@@ -131,7 +159,11 @@ if (bk && bkApi) {
   form.querySelectorAll('input[name="place"]').forEach(r => r.addEventListener('change', showPlace));
 
   prevBtn.addEventListener('click', () => shiftMonth(-1));
-  form.querySelector('.bk-next').addEventListener('click', () => shiftMonth(1));
+  nextBtn.addEventListener('click', () => shiftMonth(1));
+  monthName.addEventListener('change', () => {
+    state.month = monthName.value;
+    load();
+  });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();

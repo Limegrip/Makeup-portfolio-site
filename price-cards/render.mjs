@@ -1,7 +1,7 @@
 // Перерисовка карточек прайса: node render.mjs
 // Поднимает headless Chrome, снимает price.html и lessons.html в 1080x1920
 // и кладёт рядом price.jpg и lessons.jpg. Нужен установленный Google Chrome
-// и интернет — шрифты тянутся с Google Fonts, как и на самом сайте.
+// (шрифты локальные, из ../fonts/).
 import { spawn, execFileSync } from 'node:child_process';
 import { writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
