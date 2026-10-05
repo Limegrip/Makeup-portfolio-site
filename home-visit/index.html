@@ -137,10 +137,16 @@
 <main class="lp">
   <nav class="container lp-crumbs" aria-label="Навигация"><a href="../">Главная</a> · <span>Визажист на дом</span></nav>
   <section class="lp-hero container">
-    <p class="eyebrow">Анастасия Курдюмова · Москва</p>
-    <h1 class="lp-title">Визажист на дом в Москве и области</h1>
-    <p class="lp-lead">Приеду к вам домой, в отель или на площадку мероприятия — собираться можно без дороги
-      и спешки, в привычной обстановке. Работаю по Москве и Московской области.</p>
+    <div>
+      <p class="eyebrow">Анастасия Курдюмова · Москва</p>
+      <h1 class="lp-title">Визажист на дом в Москве и области</h1>
+      <p class="lp-lead">Приеду к вам домой, в отель или на площадку мероприятия — собираться можно без дороги
+        и спешки, в привычной обстановке. Работаю по Москве и Московской области.</p>
+      <div class="cta-actions lp-actions">
+        <a class="btn btn-primary" href="../#booking">Записаться онлайн</a>
+      </div>
+    </div>
+    <img class="lp-hero-img" width="900" height="1351" fetchpriority="high" decoding="async" src="../images/portfolio/portrait-real.jpg" style="--pos:50% 7%" alt="Анастасия Курдюмова">
   </section>
 
   <section class="lp-section container lp-two">
@@ -215,24 +221,15 @@
 </main>
 
 <footer class="site-footer">
-  <div class="footer-social-strip">
-    <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
-      <span class="eyebrow">Instagram*</span>
-      <img width="760" height="1351" loading="lazy" decoding="async" src="../images/portfolio/wedding-real.jpg" style="--pos:50% 15%" alt="">
-    </a>
-    <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
-      <span class="eyebrow">Telegram</span>
-      <img width="760" height="1013" loading="lazy" decoding="async" src="../images/portfolio/evening-real.jpg" style="--pos:50% 20%" alt="">
-    </a>
-    <a href="https://max.ru/u/f9LHodD0cOLhBi33fNEzJmTGlc65yzBXT4VLQVfNH84oaL1QS9gwJpnKSuc" target="_blank" rel="noopener">
-      <span class="eyebrow">MAX</span>
-      <img width="760" height="1351" loading="lazy" decoding="async" src="../images/portfolio/hair-real.jpg" style="--pos:50% 36%" alt="">
-    </a>
-    <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
-      <span class="eyebrow">Работы</span>
-      <img width="760" height="1351" loading="lazy" decoding="async" src="../images/portfolio/day-real.jpg" style="--pos:50% 17%" alt="">
-    </a>
-  </div>
+  <!-- Полоса работ — одна ссылка на ленту. Подписи каналов на лицах клиенток
+       читались странно, а сами каналы есть строкой ниже. -->
+  <a class="footer-social-strip" href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
+    <span class="footer-strip-label">Больше работ в Instagram* →</span>
+    <img width="760" height="1351" loading="lazy" decoding="async" srcset="../images/portfolio/sm/wedding-real.jpg 400w, ../images/portfolio/wedding-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="../images/portfolio/wedding-real.jpg" style="--pos:50% 15%" alt="">
+    <img width="760" height="1013" loading="lazy" decoding="async" srcset="../images/portfolio/sm/evening-real.jpg 400w, ../images/portfolio/evening-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="../images/portfolio/evening-real.jpg" style="--pos:50% 20%" alt="">
+    <img width="760" height="1351" loading="lazy" decoding="async" srcset="../images/portfolio/sm/hair-real.jpg 400w, ../images/portfolio/hair-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="../images/portfolio/hair-real.jpg" style="--pos:50% 36%" alt="">
+    <img width="760" height="1351" loading="lazy" decoding="async" srcset="../images/portfolio/sm/day-real.jpg 400w, ../images/portfolio/day-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="../images/portfolio/day-real.jpg" style="--pos:50% 17%" alt="">
+  </a>
 
   <div class="container footer-inner">
     <div class="footer-brand">

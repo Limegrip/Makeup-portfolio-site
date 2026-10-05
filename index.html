@@ -217,10 +217,8 @@
         Индивидуальный подход к каждой невесте и клиентке, премиальная косметика,
         выезд по Москве и области.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
-          <svg class="btn-icon" aria-hidden="true"><use href="#icon-telegram"></use></svg>
-          Записаться в Telegram
-        </a>
+        <!-- Запись — через онлайн-форму; мессенджеры и телефон — для вопросов (блок #contact). -->
+        <a class="btn btn-primary" href="#booking">Записаться онлайн</a>
         <a class="btn btn-ghost" href="#portfolio">Смотреть работы</a>
       </div>
     </div>
@@ -272,25 +270,25 @@
         <span class="service-num">01</span>
         <h3 class="service-name">Свадебный образ</h3>
         <span class="service-desc">Макияж и причёска невесты в день свадьбы, выезд по Москве и области</span>
-        <span class="service-price">от 13 000 ₽</span><span class="service-thumb"><img width="760" height="1351" loading="lazy" decoding="async" src="images/portfolio/wedding-real.jpg" style="--pos:50% 5%" alt=""></span>
+        <span class="service-price">от 13 000 ₽</span><span class="service-thumb"><img width="760" height="1351" loading="lazy" decoding="async" src="images/portfolio/sm/wedding-real.jpg" style="--pos:50% 5%" alt=""></span>
       </a>
-      <a class="service-row" href="wedding/">
+      <a class="service-row" href="wedding/#trial">
         <span class="service-num">02</span>
         <h3 class="service-name">Пробный образ</h3>
         <span class="service-desc">Репетиция свадебного макияжа и причёски заранее, без спешки</span>
-        <span class="service-price">от 13 000 ₽</span><span class="service-thumb"><img width="760" height="1351" loading="lazy" decoding="async" src="images/portfolio/hair-real.jpg" style="--pos:50% 16%" alt=""></span>
+        <span class="service-price">от 13 000 ₽</span><span class="service-thumb"><img width="760" height="1351" loading="lazy" decoding="async" src="images/portfolio/sm/hair-real.jpg" style="--pos:50% 16%" alt=""></span>
       </a>
       <a class="service-row" href="evening/">
         <span class="service-num">03</span>
         <h3 class="service-name">Вечерний макияж</h3>
         <span class="service-desc">Образ на мероприятие, съёмку или особый вечер</span>
-        <span class="service-price">от 7 000 ₽</span><span class="service-thumb"><img width="760" height="1013" loading="lazy" decoding="async" src="images/portfolio/evening-real.jpg" style="--pos:50% 20%" alt=""></span>
+        <span class="service-price">от 7 000 ₽</span><span class="service-thumb"><img width="760" height="1013" loading="lazy" decoding="async" src="images/portfolio/sm/evening-real.jpg" style="--pos:50% 20%" alt=""></span>
       </a>
       <a class="service-row" href="#portfolio" data-filter="Каждый день">
         <span class="service-num">04</span>
         <h3 class="service-name">Дневной макияж</h3>
         <span class="service-desc">Лёгкий естественный макияж на каждый день или деловую встречу</span>
-        <span class="service-price">от 7 000 ₽</span><span class="service-thumb"><img width="760" height="1351" loading="lazy" decoding="async" src="images/portfolio/day-real.jpg" style="--pos:50% 24%" alt=""></span>
+        <span class="service-price">от 7 000 ₽</span><span class="service-thumb"><img width="760" height="1351" loading="lazy" decoding="async" src="images/portfolio/sm/day-real.jpg" style="--pos:50% 24%" alt=""></span>
       </a>
       <a class="service-row" href="#portfolio" data-filter="Стиль">
         <span class="service-num">05</span>
@@ -302,12 +300,12 @@
         <span class="service-num">06</span>
         <h3 class="service-name">Обучение визажу</h3>
         <span class="service-desc">Индивидуальные уроки — от основ до профессиональных техник</span>
-        <span class="service-price">от 15 000 ₽</span><span class="service-thumb"><img width="900" height="1351" loading="lazy" decoding="async" src="images/portfolio/portrait-real.jpg" style="--pos:50% 65%" alt=""></span>
+        <span class="service-price">от 15 000 ₽</span><span class="service-thumb"><img width="900" height="1351" loading="lazy" decoding="async" src="images/portfolio/sm/portrait-real.jpg" style="--pos:50% 65%" alt=""></span>
       </a>
     </div>
-    <p class="container services-more">Также: <a href="home-visit/">выезд на дом</a> ·
-      <a href="bridal-party/">сборы мамы и подружек невесты</a> ·
-      <a href="photoshoot/">макияж для фотосессии</a></p>
+    <p class="container services-more">Также: <a href="home-visit/">выезд на дом</a> ·
+      <a href="bridal-party/">сборы мамы и подружек невесты</a> ·
+      <a href="photoshoot/">макияж для фотосессии</a></p>
 
     <!-- Стоимость живёт внутри «Услуг»: цифры там, где человек уже читает про
          услуги, — отдельного раздела и пункта меню не заводим. -->
@@ -336,7 +334,7 @@
         <dl class="price-list">
           <div><dt>Индивидуальный урок · 3 часа</dt><dd>15 000 ₽</dd></div>
           <div><dt>Урок с подружкой · 4 часа</dt><dd>28 000 ₽</dd></div>
-          <div><dt>Групповой мастер-класс</dt><dd>по запросу</dd></div>
+          <div><dt>Групповой мастер-класс</dt><dd class="price-text">по запросу</dd></div>
         </dl>
         <p class="price-note">Разбираем вашу косметичку, учим один макияж на выбор и подбираем
           продукты — вся косметика на время урока моя.</p>
@@ -369,22 +367,22 @@
         <button type="button" aria-pressed="false" data-filter="Событие">Вечерний образ</button>
         <button type="button" aria-pressed="false" data-filter="Каждый день">Дневной макияж</button>
         <button type="button" aria-pressed="false" data-filter="Стиль">Причёски и укладки</button>
-        <button type="button" aria-pressed="false" data-filter="Съёмка">Backstage</button>
+        <button type="button" aria-pressed="false" data-filter="Съёмка">Съёмки</button>
       </div>
       <div class="portfolio-grid">
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Съёмка">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/backstage.jpg">
             <source src="images/portfolio/stories/backstage.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Съёмка</span>Backstage со съёмки</figcaption>
+          <figcaption>Backstage со съёмки</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Съёмка">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/shoot-1.jpg">
             <source src="images/portfolio/stories/shoot-1.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Съёмка</span>Образ на фотосессию</figcaption>
+          <figcaption>Образ на фотосессию</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Съёмка">
           <div class="pi-stack">
             <img width="540" height="960" loading="lazy" decoding="async" class="is-active" src="images/portfolio/stories/shoot-2a.jpg" alt="Портрет с высоким пучком">
             <img width="540" height="960" loading="lazy" decoding="async" src="images/portfolio/stories/shoot-2b.jpg" alt="Портрет вполоборота, высокий пучок">
@@ -401,9 +399,9 @@
             <button type="button" aria-label="Кадр 4"></button>
             <button type="button" aria-label="Кадр 5, видео"></button>
           </div>
-          <figcaption><span class="eyebrow">Съёмка</span>Высокий пучок на фотосессию</figcaption>
+          <figcaption>Высокий пучок на фотосессию</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <div class="pi-stack">
             <img width="720" height="1280" loading="lazy" decoding="async" class="is-active" src="images/portfolio/stories/photo-4.jpg" alt="Невеста с букетом, портрет">
             <img width="540" height="960" loading="lazy" decoding="async" src="images/portfolio/stories/photo-4c.jpg" alt="Букет невесты крупным планом">
@@ -420,9 +418,9 @@
             <button type="button" aria-label="Кадр 4"></button>
             <button type="button" aria-label="Кадр 5, видео"></button>
           </div>
-          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
+          <figcaption>Свадебный образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <!-- Кадры одного человека в одном боксе. Видео — всегда последним в стопке. -->
           <div class="pi-stack">
             <img width="720" height="1280" loading="lazy" decoding="async" class="is-active" src="images/portfolio/stories/photo-3.jpg" alt="Невеста с букетом">
@@ -434,51 +432,51 @@
             <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2, видео"></button>
           </div>
-          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
+          <figcaption>Свадебный образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/wedding-1.jpg">
             <source src="images/portfolio/stories/wedding-1.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
+          <figcaption>Свадебный образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/wedding-2.jpg">
             <source src="images/portfolio/stories/wedding-2.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
+          <figcaption>Свадебный образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/wedding-4.jpg">
             <source src="images/portfolio/stories/wedding-4.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
+          <figcaption>Свадебный образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/wedding-5.jpg">
             <source src="images/portfolio/stories/wedding-5.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Невесты</span>Образ с короткой вуалью</figcaption>
+          <figcaption>Образ с короткой вуалью</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/wedding-7.jpg">
             <source src="images/portfolio/stories/wedding-7.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Невесты</span>Образ с длинной вуалью</figcaption>
+          <figcaption>Образ с длинной вуалью</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/wedding-8.jpg">
             <source src="images/portfolio/stories/wedding-8.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Невесты</span>Утро невесты</figcaption>
+          <figcaption>Утро невесты</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/wedding-9.jpg">
             <source src="images/portfolio/stories/wedding-9.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
+          <figcaption>Свадебный образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <div class="pi-stack">
             <video class="is-active" controls preload="none" playsinline data-poster="images/portfolio/stories/trial-2.jpg">
               <source src="images/portfolio/stories/trial-2.mp4" type="video/mp4">
@@ -491,9 +489,9 @@
             <button type="button" class="is-active" aria-current aria-label="Кадр 1, видео"></button>
             <button type="button" aria-label="Кадр 2, видео"></button>
           </div>
-          <figcaption><span class="eyebrow">Невесты</span>Пробный образ невесты</figcaption>
+          <figcaption>Пробный образ невесты</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <div class="pi-stack">
             <img width="540" height="960" loading="lazy" decoding="async" class="is-active" src="images/portfolio/stories/photo-6.jpg" alt="Невеста с букетом, портрет">
             <img width="540" height="960" loading="lazy" decoding="async" src="images/portfolio/stories/photo-6b.jpg" alt="Невеста в платье с открытой спиной, в полный рост">
@@ -510,9 +508,9 @@
             <button type="button" aria-label="Кадр 4"></button>
             <button type="button" aria-label="Кадр 5, видео"></button>
           </div>
-          <figcaption><span class="eyebrow">Невесты</span>Свадебный образ</figcaption>
+          <figcaption>Свадебный образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <div class="pi-stack">
             <img width="540" height="960" loading="lazy" decoding="async" class="is-active" src="images/portfolio/stories/photo-7.jpg" alt="Портрет на пробном образе">
             <img width="540" height="960" loading="lazy" decoding="async" src="images/portfolio/stories/photo-7b.jpg" alt="Портрет вполоборота, макияж крупным планом">
@@ -525,9 +523,9 @@
             <button type="button" aria-label="Кадр 3"></button>
             <button type="button" aria-label="Кадр 4"></button>
           </div>
-          <figcaption><span class="eyebrow">Невесты</span>Пробный образ</figcaption>
+          <figcaption>Пробный образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <div class="pi-stack">
             <img width="540" height="960" loading="lazy" decoding="async" class="is-active" src="images/portfolio/stories/photo-8.jpg" alt="Портрет с высокой причёской">
             <img width="540" height="960" loading="lazy" decoding="async" src="images/portfolio/stories/photo-8b.jpg" alt="Портрет вполоборота в белом корсете">
@@ -544,15 +542,15 @@
             <button type="button" aria-label="Кадр 4"></button>
             <button type="button" aria-label="Кадр 5, видео"></button>
           </div>
-          <figcaption><span class="eyebrow">Невесты</span>Образ с высокой причёской</figcaption>
+          <figcaption>Образ с высокой причёской</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/wedding-11.jpg">
             <source src="images/portfolio/stories/wedding-11.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Невесты</span>Образ с гладким пучком</figcaption>
+          <figcaption>Образ с гладким пучком</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <div class="pi-stack">
             <img width="720" height="1280" loading="lazy" decoding="async" class="is-active" src="images/portfolio/stories/photo-9.jpg" alt="Невеста с голливудской волной и макияжем в тёплых тонах">
             <video controls preload="none" playsinline data-poster="images/portfolio/stories/wedding-12.jpg">
@@ -563,9 +561,9 @@
             <button type="button" class="is-active" aria-current aria-label="Кадр 1"></button>
             <button type="button" aria-label="Кадр 2, видео"></button>
           </div>
-          <figcaption><span class="eyebrow">Невесты</span>Образ с голливудской волной</figcaption>
+          <figcaption>Образ с голливудской волной</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Невесты">
           <div class="pi-stack">
             <img width="540" height="960" loading="lazy" decoding="async" class="is-active" src="images/portfolio/stories/everyday-3b.jpg" alt="Репетиция свадебного образа, портрет в три четверти">
             <img width="540" height="960" loading="lazy" decoding="async" src="images/portfolio/stories/everyday-3c.jpg" alt="Свадебный макияж крупным планом, нюдовые оттенки">
@@ -582,43 +580,43 @@
             <button type="button" aria-label="Кадр 4"></button>
             <button type="button" aria-label="Кадр 5, видео"></button>
           </div>
-          <figcaption><span class="eyebrow">Невесты</span>Репетиция свадебного образа</figcaption>
+          <figcaption>Репетиция свадебного образа</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Событие">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/evening-1.jpg">
             <source src="images/portfolio/stories/evening-1.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Событие</span>Вечерний образ</figcaption>
+          <figcaption>Вечерний образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Событие">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/business.jpg">
             <source src="images/portfolio/stories/business.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Событие</span>Деловой образ</figcaption>
+          <figcaption>Деловой образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Каждый день">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/everyday.jpg">
             <source src="images/portfolio/stories/everyday.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Каждый день</span>Дневной макияж</figcaption>
+          <figcaption>Дневной макияж</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Каждый день">
           <video controls preload="none" playsinline data-poster="images/portfolio/stories/everyday-2.jpg">
             <source src="images/portfolio/stories/everyday-2.mp4" type="video/mp4">
           </video>
-          <figcaption><span class="eyebrow">Каждый день</span>Дневной образ</figcaption>
+          <figcaption>Дневной образ</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Стиль">
           <img width="720" height="1280" loading="lazy" decoding="async" src="images/portfolio/stories/photo-2.jpg" alt="Причёска — низкий пучок">
-          <figcaption><span class="eyebrow">Стиль</span>Причёска</figcaption>
+          <figcaption>Причёска</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Стиль">
           <img width="720" height="1280" loading="lazy" decoding="async" src="images/portfolio/stories/photo-5.jpg" alt="Причёска — мягкие локоны с полусобранным верхом">
-          <figcaption><span class="eyebrow">Стиль</span>Локоны с полусобранным верхом</figcaption>
+          <figcaption>Локоны с полусобранным верхом</figcaption>
         </figure>
-        <figure class="portfolio-item">
+        <figure class="portfolio-item" data-category="Стиль">
           <img width="720" height="1280" loading="lazy" decoding="async" src="images/portfolio/stories/photo-1.jpg" alt="Образ с аксессуаром">
-          <figcaption><span class="eyebrow">Стиль</span>Образ и аксессуар</figcaption>
+          <figcaption>Образ и аксессуар</figcaption>
         </figure>
       </div>
 
@@ -734,23 +732,41 @@
       <span class="eyebrow center">Онлайн-запись</span>
       <h2 class="section-title center">Выберите дату и время</h2>
       <p class="section-sub center">Время бронируется предварительно — Анастасия свяжется с вами, обсудит детали и подтвердит запись.</p>
-      <p class="bk-fallback center">Если форма не открылась — запишитесь в <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">Telegram</a>.</p>
+      <!-- Виден, пока форма не загрузилась (нет JS) или когда расписание не пришло. -->
+      <div class="bk-fallback center">
+        <p>Онлайн-запись сейчас не открылась — напишите или позвоните, подберём дату вместе.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
+            <svg class="btn-icon" aria-hidden="true"><use href="#icon-telegram"></use></svg>
+            Написать в Telegram
+          </a>
+          <a class="btn btn-ghost" href="https://max.ru/u/f9LHodD0cOLhBi33fNEzJmTGlc65yzBXT4VLQVfNH84oaL1QS9gwJpnKSuc" target="_blank" rel="noopener">
+            <svg class="btn-icon" aria-hidden="true"><use href="#icon-max"></use></svg>
+            Написать в MAX
+          </a>
+          <a class="btn btn-ghost" href="tel:+79776691054">
+            <svg class="btn-icon" aria-hidden="true"><use href="#icon-phone"></use></svg>
+            Позвонить
+          </a>
+        </div>
+      </div>
 
       <form class="bk" hidden novalidate>
         <fieldset class="bk-step">
           <legend>1. Услуга</legend>
-          <div class="bk-services pf-filters"></div>
+          <div class="bk-services pf-filters"><p class="bk-hint">Загружаем расписание…</p></div>
         </fieldset>
 
         <fieldset class="bk-step">
           <legend>2. Дата</legend>
           <div class="bk-month">
             <button type="button" class="bk-prev" aria-label="Предыдущий месяц">‹</button>
-            <strong class="bk-month-name" aria-live="polite"></strong>
+            <select class="bk-month-name" aria-label="Месяц"></select>
             <button type="button" class="bk-next" aria-label="Следующий месяц">›</button>
           </div>
           <div class="bk-weekdays" aria-hidden="true"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
           <div class="bk-days"></div>
+          <p class="bk-load-error" role="alert" hidden></p>
         </fieldset>
 
         <fieldset class="bk-step">
@@ -785,13 +801,13 @@
   <!-- CONTACT / CTA -->
   <section class="cta" id="contact">
     <div class="container cta-inner">
-      <h2>Готовы обсудить ваш образ?</h2>
-      <p>Напишите в Telegram или MAX — или позвоните. Отвечу и подберу дату.</p>
+      <h2>Остались вопросы?</h2>
+      <p>Напишите в Telegram или MAX — или позвоните. Отвечу и помогу выбрать образ.</p>
       <p class="cta-address">Студия: бьюти-коворкинг «Стрелки», <a href="https://yandex.ru/maps/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%98%D0%BB%D1%8C%D0%B8%D0%BD%D0%BA%D0%B0%2C%203%2F8%D1%811" target="_blank" rel="noopener">Москва, ул. Ильинка, 3/8, стр. 1</a> · м. Площадь Революции</p>
       <div class="cta-actions">
         <a class="btn btn-primary" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
           <svg class="btn-icon" aria-hidden="true"><use href="#icon-telegram"></use></svg>
-          Записаться в Telegram
+          Написать в Telegram
         </a>
         <a class="btn btn-ghost-light" href="https://max.ru/u/f9LHodD0cOLhBi33fNEzJmTGlc65yzBXT4VLQVfNH84oaL1QS9gwJpnKSuc" target="_blank" rel="noopener">
           <svg class="btn-icon" aria-hidden="true"><use href="#icon-max"></use></svg>
@@ -808,24 +824,15 @@
 </main>
 
 <footer class="site-footer">
-  <div class="footer-social-strip">
-    <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
-      <span class="eyebrow">Instagram*</span>
-      <img width="760" height="1351" loading="lazy" decoding="async" src="images/portfolio/wedding-real.jpg" style="--pos:50% 15%" alt="">
-    </a>
-    <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
-      <span class="eyebrow">Telegram</span>
-      <img width="760" height="1013" loading="lazy" decoding="async" src="images/portfolio/evening-real.jpg" style="--pos:50% 20%" alt="">
-    </a>
-    <a href="https://max.ru/u/f9LHodD0cOLhBi33fNEzJmTGlc65yzBXT4VLQVfNH84oaL1QS9gwJpnKSuc" target="_blank" rel="noopener">
-      <span class="eyebrow">MAX</span>
-      <img width="760" height="1351" loading="lazy" decoding="async" src="images/portfolio/hair-real.jpg" style="--pos:50% 36%" alt="">
-    </a>
-    <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
-      <span class="eyebrow">Работы</span>
-      <img width="760" height="1351" loading="lazy" decoding="async" src="images/portfolio/day-real.jpg" style="--pos:50% 17%" alt="">
-    </a>
-  </div>
+  <!-- Полоса работ — одна ссылка на ленту. Подписи каналов на лицах клиенток
+       читались странно, а сами каналы есть строкой ниже. -->
+  <a class="footer-social-strip" href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
+    <span class="footer-strip-label">Больше работ в Instagram* →</span>
+    <img width="760" height="1351" loading="lazy" decoding="async" srcset="images/portfolio/sm/wedding-real.jpg 400w, images/portfolio/wedding-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="images/portfolio/wedding-real.jpg" style="--pos:50% 15%" alt="">
+    <img width="760" height="1013" loading="lazy" decoding="async" srcset="images/portfolio/sm/evening-real.jpg 400w, images/portfolio/evening-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="images/portfolio/evening-real.jpg" style="--pos:50% 20%" alt="">
+    <img width="760" height="1351" loading="lazy" decoding="async" srcset="images/portfolio/sm/hair-real.jpg 400w, images/portfolio/hair-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="images/portfolio/hair-real.jpg" style="--pos:50% 36%" alt="">
+    <img width="760" height="1351" loading="lazy" decoding="async" srcset="images/portfolio/sm/day-real.jpg 400w, images/portfolio/day-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="images/portfolio/day-real.jpg" style="--pos:50% 17%" alt="">
+  </a>
 
   <div class="container footer-inner">
     <div class="footer-brand">

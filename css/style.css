@@ -7,6 +7,11 @@
   --accent: #8a5a3c;
   --white: #ffffff;
   --border: #e1d3bd;
+  --dots-h: calc(0.2rem + 24px);
+  /* Движение — с мягким замедлением в конце; цветовые отклики остаются короткими ease. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --row-pad: max(24px, calc((100vw - 1180px) / 2 + 24px));   /* край .container для полноширинных полос */
+  --muted: #706152;   /* второстепенный текст: ≥4.5:1 и на --cream, и на --cream-alt */
   --radius: 4px;
   --serif: "Cormorant Garamond", Georgia, serif;
   --script: "Marck Script", cursive;
@@ -14,8 +19,9 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-html, body { overflow-x: hidden; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }   /* высота sticky-шапки */
+/* clip, а не hidden: hidden делает body контейнером прокрутки, и sticky-шапка уезжает вместе со страницей. */
+html, body { overflow-x: clip; }
 body {
   margin: 0;
   font-family: var(--sans);
@@ -69,7 +75,7 @@ section { padding: 5rem 0; }
   font-weight: 600;
   font-size: 0.95rem;
   border: 1px solid transparent;
-  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
   white-space: nowrap;
 }
 .btn-icon { width: 20px; height: 20px; flex-shrink: 0; }
@@ -131,8 +137,12 @@ section { padding: 5rem 0; }
   border-radius: 50%;
   transition: transform 0.15s ease;
 }
-.header-actions a:hover { transform: translateY(-2px); color: var(--brown-strong); }
+.header-actions a:hover { color: var(--brown-strong); }
+@media (hover: hover) {
+  .header-actions a:hover { transform: translateY(-2px); }
+}
 .header-social-icon { width: 22px; height: 22px; flex-shrink: 0; }
+.nav-contacts { display: none; }
 .burger {
   display: none;
   flex-direction: column;
@@ -147,15 +157,18 @@ section { padding: 5rem 0; }
 /* Hero — split, full-bleed photo like the reference */
 .hero {
   display: grid;
-  grid-template-columns: minmax(0,1fr) minmax(320px, 0.62fr);
+  grid-template-columns: minmax(0,1fr) minmax(320px, 0.82fr);
   align-items: stretch;
   min-height: 82vh;
+  padding: 0;   /* общий отступ section оставлял полосы фона над фото и под ним */
 }
 .hero-text {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 3rem clamp(24px, 5vw, 72px);
+  /* левый край текста — по краю .container, как у остальных секций */
+  padding-left: var(--row-pad);
 }
 .hero-title {
   font-family: var(--serif);
@@ -179,31 +192,32 @@ section { padding: 5rem 0; }
 
 /* Fact strip */
 .fact-strip { background: var(--brown-strong); color: var(--white); }
+/* Сетка, а не flex с переносом: при переносе 3 + 1 разделитель повисал в конце строки.
+   Разделитель — левая граница у всех, кроме первого в ряду. */
 .fact-strip-inner {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
   justify-content: center;
-  gap: 0.5rem 2.5rem;
+  row-gap: 0.6rem;
   padding: 1.2rem 24px;
   text-align: center;
 }
 .fact-strip-inner span {
   font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   opacity: 0.92;
-  position: relative;
-  padding-right: 2.5rem;
+  padding: 0 clamp(0.9rem, 1.6vw, 1.4rem);
+  white-space: nowrap;   /* пункт целиком в строке; ряды меняет сетка */
 }
-.fact-strip-inner span:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1px;
-  height: 1em;
-  background: rgba(255,255,255,0.35);
+.fact-strip-inner span + span { border-left: 1px solid rgba(255,255,255,0.35); }
+@media (max-width: 1240px) {
+  .fact-strip-inner { grid-template-columns: repeat(2, auto); }
+  .fact-strip-inner span:nth-child(odd) { border-left: 0; }
+}
+@media (max-width: 560px) {
+  .fact-strip-inner { grid-template-columns: minmax(0, 1fr); }
+  .fact-strip-inner span { border-left: 0; white-space: normal; }
 }
 
 /* About */
@@ -224,20 +238,32 @@ section { padding: 5rem 0; }
 .services-list { margin-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.14); }
 .service-row {
   display: grid;
-  grid-template-columns: 3rem 1fr auto 64px;
+  grid-template-columns: 3rem minmax(0, 1fr) auto 64px;
   align-items: center;
   gap: 1.5rem;
-  padding: 1.4rem clamp(24px, 5vw, 72px);
+  /* поля строки — по краю .container: номер встаёт под заголовком «Услуги» */
+  padding: 1.4rem var(--row-pad);
   border-bottom: 1px solid rgba(255,255,255,0.14);
   color: var(--cream);
-  transition: background 0.2s ease, padding-left 0.2s ease;
+  transition: background 0.2s ease;
 }
-.service-row:hover { background: rgba(255,255,255,0.05); padding-left: calc(clamp(24px, 5vw, 72px) + 10px); }
+.service-row:hover { background: rgba(255,255,255,0.05); }
+/* Сдвиг — transform у номера, названия и описания: padding заставлял пересчитывать раскладку
+   каждый кадр. Только с мышью — на телефоне после тапа строка оставалась сдвинутой. */
+.service-row > :is(.service-num, .service-name, .service-desc) { transition: transform 0.3s var(--ease-out); }
+@media (hover: hover) {
+  .service-row:hover > :is(.service-num, .service-name, .service-desc) { transform: translateX(10px); }
+}
 .service-num { font-family: var(--serif); color: #cbb79a; font-size: 1.1rem; }
 .service-name { font-family: var(--serif); font-size: clamp(1.3rem, 2.6vw, 1.9rem); font-weight: 600; margin: 0; line-height: inherit; }
 /* Строка «Визажист · …» стоит внутри H1 ради поиска, но выглядит как прежде. */
 .hero-title .eyebrow { font-family: var(--sans); line-height: 1.5; }
 .service-desc { color: #cbb79a; font-size: 0.9rem; max-width: 360px; display: none; }
+/* На широком экране в строке хватает места на описание услуги. */
+@media (min-width: 1100px) {
+  .service-row { grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 22rem) 7.5rem 64px; }
+  .service-desc { display: block; }
+}
 .service-thumb {
   width: 64px;
   height: 64px;
@@ -273,6 +299,7 @@ section { padding: 5rem 0; }
   font-size: 1.2rem;
   white-space: nowrap;
 }
+.price-list dd.price-text { font-family: var(--sans); font-size: 0.92rem; }
 .price-note { margin: 0.9rem 0 0; font-size: 0.82rem; line-height: 1.5; color: #cbb79a; }
 .price-note a, .cta-address a { text-decoration: underline; }
 .cta .cta-address { margin: -1rem 0 1.8rem; font-size: 0.9rem; opacity: 0.75; }
@@ -353,7 +380,6 @@ section { padding: 5rem 0; }
   font-weight: 600;
   color: var(--brown-dark);
 }
-.portfolio-item figcaption .eyebrow { margin-bottom: 0.25rem; }
 
 /* Карусель внутри карточки: несколько кадров одного человека в одном боксе.
    Слайды лежат стопкой, поэтому бокс держит высоту сам — отсюда aspect-ratio. */
@@ -365,26 +391,67 @@ section { padding: 5rem 0; }
   height: 100%;
   aspect-ratio: auto;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s var(--ease-out);
 }
 .pi-stack > .is-active { opacity: 1; }
+/* Точка видна 7px, а нажимается 24px — иначе пальцем в неё не попасть. */
 .pi-dots {
   display: flex;
   justify-content: center;
-  gap: 6px;
-  padding: 0.7rem 0 0;
+  height: var(--dots-h);
+  padding-top: 0.2rem;
 }
 .pi-dots button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.pi-dots button::before {
+  content: "";
+  display: block;
   width: 7px;
   height: 7px;
+  margin: auto;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.25s ease;
+}
+.pi-dots button.is-active::before { background: var(--brown-strong); }
+/* Кнопка ▶ поверх обложки видео (js/main.js). */
+.pi-video, .testimonial-video { position: relative; }
+.pi-play,
+.pi-stack > .pi-play {
+  position: absolute;
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  aspect-ratio: auto;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--border);
+  background: rgba(247, 241, 232, 0.92);
+  color: var(--brown-strong);
+  box-shadow: 0 8px 24px -8px rgba(36, 26, 18, 0.45);
   cursor: pointer;
-  transition: background 0.25s ease;
+  opacity: 1;
+  transition: transform 0.3s var(--ease-out), opacity 0.5s var(--ease-out);
 }
-.pi-dots button.is-active { background: var(--brown-strong); }
+.pi-play svg { width: 28px; height: 28px; display: block; margin: 0 auto; transform: translateX(2px); }
+@media (hover: hover) {
+  .pi-play:hover { transform: scale(1.06); }
+}
+.pi-play:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
+/* В карусели кнопка видна, только пока на экране видео-слайд. */
+.pi-stack > .pi-play { opacity: 0; pointer-events: none; }
+.pi-stack > video.is-active + .pi-play { opacity: 1; pointer-events: auto; }
+/* Карточки без карусели держат место под точки — подписи в ряду на одной высоте. */
+.portfolio-item:not(:has(.pi-dots)) figcaption { margin-top: var(--dots-h); }
 /* Services grid (legacy card fallback, unused but kept minimal) */
 
 /* Why */
@@ -399,7 +466,7 @@ section { padding: 5rem 0; }
 .why-text h2 { font-family: var(--serif); font-size: 2.2rem; margin: 0 0 2rem; }
 .why-list { display: flex; flex-direction: column; gap: 1.6rem; }
 .why-item { display: flex; gap: 1.2rem; }
-.why-num { font-family: var(--serif); font-size: 1.4rem; color: var(--brown-strong); font-weight: 600; }
+.why-num { font-family: var(--serif); font-size: 1.4rem; color: var(--brown-strong); font-weight: 600; font-variant-numeric: tabular-nums; flex: 0 0 1.6em; }
 .why-item h3 { margin: 0 0 0.3rem; font-size: 1.05rem; }
 .why-item p { margin: 0; color: #5a4a3c; font-size: 0.92rem; }
 
@@ -414,7 +481,7 @@ section { padding: 5rem 0; }
   justify-content: center;
   align-items: center;
   gap: 2.5rem;
-  animation: rv-in 0.35s ease;
+  animation: rv-in 0.45s var(--ease-out);
 }
 .rv-slide.has-text { grid-template-columns: 320px minmax(0, 34em); }
 .rv-slide[hidden] { display: none; }
@@ -447,7 +514,7 @@ section { padding: 5rem 0; }
 .rv-prev::before { transform: translateX(2px) rotate(-135deg); }
 .rv-next { right: 0; }
 .rv-next::before { transform: translateX(-2px) rotate(45deg); }
-.rv-dots { padding-top: 1.2rem; }
+.rv-dots { height: auto; padding-top: 1.2rem; }
 .testimonial-text {
   margin: 0;
   max-width: 34em;
@@ -494,24 +561,31 @@ section { padding: 5rem 0; }
 /* Footer */
 .site-footer { background: var(--brown-dark); color: var(--cream); border-top: 1px solid rgba(255,255,255,0.1); }
 .footer-social-strip {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(0,1fr));
 }
-.footer-social-strip a {
-  position: relative;
-  aspect-ratio: 1/1;
-  overflow: hidden;
-  display: block;
+.footer-social-strip img { width: 100%; height: 100%; aspect-ratio: 1/1; object-fit: cover; filter: grayscale(60%) brightness(0.75); transition: filter 0.2s ease; }
+.footer-social-strip:hover img { filter: grayscale(0%) brightness(0.9); }
+/* Затемнение снизу: подпись стоит на светлых кадрах (белое платье) и терялась. */
+.footer-social-strip::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 35%;
+  background: linear-gradient(transparent, rgba(36, 26, 18, 0.75));
+  pointer-events: none;
 }
-.footer-social-strip img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(60%) brightness(0.75); transition: filter 0.2s ease; }
-.footer-social-strip a:hover img { filter: grayscale(0%) brightness(0.9); }
-.footer-social-strip .eyebrow {
+.footer-strip-label {
   position: absolute;
   left: 0.9rem;
   bottom: 0.9rem;
-  color: var(--white);
-  margin: 0;
   z-index: 1;
+  color: var(--white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 8px rgba(36, 26, 18, 0.6);
 }
 .footer-inner {
   display: flex;
@@ -562,11 +636,14 @@ section { padding: 5rem 0; }
 /* Страницы услуг (wedding/, makeup-for-you/) */
 .lp section { padding-top: 0; padding-bottom: 0; }   /* боковые отступы — от .container */
 .lp .section-title { font-size: clamp(1.6rem, 3vw, 2.1rem); line-height: 1.2; }
-.lp-crumbs { padding-top: 1.4rem; font-size: 0.85rem; color: #8a7a6a; }
+.lp-crumbs { padding-top: 1.4rem; font-size: 0.85rem; color: var(--muted); }
 .lp-crumbs a { text-decoration: underline; }
 .lp .lp-hero { padding-top: 2rem; padding-bottom: 3rem; }
 .lp-title { font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.08; font-weight: 600; margin: 0 0 1.2rem; max-width: 16ch; }
 .lp-lead { font-size: 1.12rem; max-width: 640px; color: #5a4a3c; margin: 0; }
+/* Первый экран страницы услуги: текст с кнопкой записи и кадр по теме справа. */
+.lp .lp-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: 3rem; align-items: center; }
+.lp-hero-img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
 .lp .lp-section { padding-bottom: 4rem; }
 .lp .fact-strip + .lp-section { padding-top: 3.5rem; }
 .lp-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem; }
@@ -575,10 +652,13 @@ section { padding: 5rem 0; }
 .lp-list li { margin-bottom: 0.6rem; }
 .lp .lp-prices { padding: 3.5rem 0 2.5rem; }
 .lp-pricing-one { grid-template-columns: minmax(0, 420px); }
+/* На страницах услуг колонок прайса две, а не три — без пустой трети справа. */
+.lp .pricing:not(.lp-pricing-one) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.lp .price-col:last-child { grid-column: auto; }
 .lp-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; }
 .lp-gallery figure { margin: 0; }
 .lp-gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 20%; border-radius: var(--radius); }
-.lp-gallery figcaption { font-size: 0.85rem; color: #8a7a6a; margin-top: 0.4rem; }
+.lp-gallery figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.4rem; }
 .lp-more { margin-top: 1.5rem; }
 .lp-more a, .lp-steps a, .lp-two a { color: var(--brown-strong); font-weight: 600; text-decoration: underline; }
 .lp .lp-cta { padding-top: 4rem; padding-bottom: 5rem; }
@@ -587,13 +667,20 @@ section { padding: 5rem 0; }
 .lp-actions { justify-content: flex-start; margin-top: 1.5rem; }
 @media (max-width: 760px) {
   .lp-two { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  /* на телефоне кадр над текстом и пониже, чтобы кнопка осталась в первом экране */
+  .lp .lp-hero { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-top: 1.2rem; }
+  .lp-hero-img { order: -1; aspect-ratio: 3 / 2; }
   .lp-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lp .pricing:not(.lp-pricing-one) { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Онлайн-запись. Чипы услуг и времени — те же, что в фильтре портфолио (.pf-filters). */
 .booking { background: var(--cream-alt); }
-.bk-fallback { margin-top: 1.5rem; }
-.bk-fallback a { color: var(--brown-strong); font-weight: 600; text-decoration: underline; }
+.bk-fallback { margin-top: 2rem; }
+.bk-fallback p { margin: 0 0 1.2rem; font-weight: 600; }
+.bk-fallback[hidden] { display: none; }
+/* Ошибка загрузки месяца — сразу под календарём, где её и ищут. */
+.bk-load-error { margin: 0.8rem 0 0; color: var(--brown-strong); font-weight: 600; }
 .bk { max-width: 720px; margin: 2.5rem auto 0; }
 .bk-step { border: 0; margin: 0 0 2rem; padding: 0; min-width: 0; }
 .bk-step legend {
@@ -604,7 +691,7 @@ section { padding: 5rem 0; }
   padding: 0;
 }
 .bk .pf-filters { justify-content: flex-start; margin: 0; }
-.bk-hint { margin: 0; color: #8a7a6a; font-size: 0.9rem; }
+.bk-hint { margin: 0; color: var(--muted); font-size: 0.9rem; }
 .bk-month { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; }
 .bk-month button {
   font: inherit;
@@ -618,8 +705,19 @@ section { padding: 5rem 0; }
   cursor: pointer;
 }
 .bk-month button:disabled { opacity: 0.3; cursor: default; }
+.bk-month select {
+  font: inherit;
+  font-weight: 700;
+  color: var(--brown-dark);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  min-height: 44px;
+  cursor: pointer;
+}
 .bk-weekdays, .bk-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.35rem; }
-.bk-weekdays { font-size: 0.75rem; color: #8a7a6a; text-align: center; margin-bottom: 0.35rem; }
+.bk-weekdays { font-size: 0.75rem; color: var(--muted); text-align: center; margin-bottom: 0.35rem; }
 .bk-days button {
   font: inherit;
   height: 44px;
@@ -662,7 +760,7 @@ section { padding: 5rem 0; }
 .bk-place input { accent-color: var(--brown-strong); margin: 0; }
 .bk-studio { margin: 0; font-size: 0.9rem; color: var(--brown); }
 .bk-fields [hidden] { display: none; }
-.bk-note { font-weight: 400; font-size: 0.78rem; color: #8a7a6a; }
+.bk-note { font-weight: 400; font-size: 0.78rem; color: var(--muted); }
 .bk-consent a, .footer-bar a { text-decoration: underline; }
 
 /* Политика и согласие (privacy.html, consent.html) */
@@ -672,7 +770,7 @@ section { padding: 5rem 0; }
 .doc p { margin: 0 0 0.8rem; color: #3d3128; }
 .doc a { color: var(--brown-strong); text-decoration: underline; }
 .doc-back { font-size: 0.9rem; }
-.doc-date { color: #8a7a6a; font-size: 0.9rem; }
+.doc-date { color: var(--muted); font-size: 0.9rem; }
 .doc-table { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1.2rem; font-size: 0.95rem; }
 .doc-table th, .doc-table td { text-align: left; vertical-align: top; padding: 0.7rem 0.8rem; border-top: 1px solid var(--border); }
 .doc-table th { width: 32%; font-weight: 600; color: var(--brown); }
@@ -688,7 +786,9 @@ section { padding: 5rem 0; }
 /* Responsive */
 @media (max-width: 900px) {
   .hero { grid-template-columns: minmax(0,1fr); min-height: auto; }
-  .hero-media { order: -1; min-height: 46vh; }
+  /* фото пониже, чтобы кнопка записи помещалась в первый экран телефона */
+  .hero-media { order: -1; min-height: 38vh; }
+  .hero-text { padding-top: 1.8rem; padding-bottom: 2.4rem; }
   /* фото над текстом: кадр шире, поэтому якорь выше — иначе срезает макушку */
   .hero-media img { object-position: 50% 26%; }
   .about-inner, .why-inner { grid-template-columns: minmax(0,1fr); }
@@ -714,12 +814,19 @@ section { padding: 5rem 0; }
     padding: 1.5rem 0;
     gap: 1.2rem;
     transform: translateY(-130%);
-    transition: transform 0.25s ease;
+    /* visibility выключается после выезда — иначе Tab и экранный диктор ходят по невидимым ссылкам */
+    visibility: hidden;
+    transition: transform 0.35s var(--ease-out), visibility 0s 0.35s;
     z-index: 50;
   }
-  .nav.open { transform: translateY(0); }
+  .nav.open { transform: translateY(0); visibility: visible; transition: transform 0.35s var(--ease-out); }
+  .nav-contacts { display: flex; gap: 0.8rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .nav-contacts a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; }
   .header-actions { display: none; }
-  .burger { display: flex; }
+  /* 44px для пальца; отрицательный margin — чтобы шапка не стала выше (меню выезжает от 64px) */
+  .burger { display: flex; width: 44px; height: 44px; margin: -6px -8px -6px 0; justify-content: center; align-items: center; }
+  /* палец — минимум 44px по высоте; на десктопе чипы остаются компактными */
+  .pf-filters button { min-height: 44px; }
   section { padding: 3.2rem 0; }
   .service-row { grid-template-columns: 2.2rem 1fr 48px; gap: 0.2rem 1rem; }
   .service-num { grid-column: 1; grid-row: 1; }
@@ -733,15 +840,14 @@ section { padding: 5rem 0; }
   .portfolio-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .footer-social-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .hero-actions .btn { width: 100%; justify-content: center; }
-  .fact-strip-inner span:nth-child(2n)::after { display: none; }
   .bk-fields { grid-template-columns: minmax(0, 1fr); }
-  .bk-submit { width: 100%; justify-content: center; }
+  .bk-submit, .cta-actions .btn { width: 100%; justify-content: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pi-stack > * { transition: none; }
+  .pi-stack > *, .pi-play, .nav, .nav.open { transition: none; }
   /* Плавная прокрутка и выезд слайда отзывов — тоже движение, которое просили выключить. */
   html { scroll-behavior: auto; }
   .rv-slide { animation: none; }
-  .hero-media img, .about-media img, .why-media img { transition: none; }
+  .service-row > *, .header-actions a, .pi-play { transform: none !important; }
 }

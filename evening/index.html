@@ -155,10 +155,16 @@
 <main class="lp">
   <nav class="container lp-crumbs" aria-label="Навигация"><a href="../">Главная</a> · <span>Вечерний макияж</span></nav>
   <section class="lp-hero container">
-    <p class="eyebrow">Анастасия Курдюмова · Москва</p>
-    <h1 class="lp-title">Вечерний макияж и причёска в Москве</h1>
-    <p class="lp-lead">Образ на мероприятие, день рождения, выпускной, съёмку или особый вечер —
-      в студии в центре Москвы или с выездом к вам.</p>
+    <div>
+      <p class="eyebrow">Анастасия Курдюмова · Москва</p>
+      <h1 class="lp-title">Вечерний макияж и причёска в Москве</h1>
+      <p class="lp-lead">Образ на мероприятие, день рождения, выпускной, съёмку или особый вечер —
+        в студии в центре Москвы или с выездом к вам.</p>
+      <div class="cta-actions lp-actions">
+        <a class="btn btn-primary" href="../?service=evening#booking">Записаться онлайн</a>
+      </div>
+    </div>
+    <img class="lp-hero-img" width="760" height="1013" fetchpriority="high" decoding="async" src="../images/portfolio/evening-real.jpg" style="--pos:50% 20%" alt="Вечерний образ: выразительный макияж и гладкая причёска">
   </section>
 
   <section class="lp-section container lp-two">
@@ -217,9 +223,9 @@
   <section class="lp-section container">
     <h2 class="section-title">Работы</h2>
     <div class="lp-gallery">
-      <figure><img loading="lazy" decoding="async" src="../images/portfolio/stories/evening-1.jpg" alt="Вечерний образ: макияж с акцентом на глаза и гладкая причёска"><figcaption>Вечерний образ</figcaption></figure>
-      <figure><img loading="lazy" decoding="async" src="../images/portfolio/stories/business.jpg" alt="Деловой образ: естественный макияж и объёмная укладка"><figcaption>Деловой образ</figcaption></figure>
-      <figure><img loading="lazy" decoding="async" src="../images/portfolio/stories/photo-5.jpg" alt="Причёска — мягкие локоны с полусобранным верхом"><figcaption>Локоны</figcaption></figure>
+      <figure><img width="720" height="1280" loading="lazy" decoding="async" src="../images/portfolio/stories/evening-1.jpg" alt="Вечерний образ: макияж с акцентом на глаза и гладкая причёска"><figcaption>Вечерний образ</figcaption></figure>
+      <figure><img width="720" height="1280" loading="lazy" decoding="async" src="../images/portfolio/stories/business.jpg" alt="Деловой образ: естественный макияж и объёмная укладка"><figcaption>Деловой образ</figcaption></figure>
+      <figure><img width="720" height="1280" loading="lazy" decoding="async" src="../images/portfolio/stories/photo-5.jpg" alt="Причёска — мягкие локоны с полусобранным верхом"><figcaption>Локоны</figcaption></figure>
     </div>
     <p class="lp-more"><a href="../#portfolio">Все работы в портфолио →</a></p>
   </section>
@@ -227,11 +233,11 @@
   <section class="lp-cta container">
     <h2 class="section-title">Как записаться</h2>
     <ol class="lp-steps">
-      <li>Выберите услугу, дату и время в <a href="../#booking">онлайн-записи</a> — свободные окна видны сразу.</li>
+      <li>Выберите услугу, дату и время в <a href="../?service=evening#booking">онлайн-записи</a> — свободные окна видны сразу.</li>
       <li>Анастасия свяжется с вами, обсудит детали и подтвердит запись.</li>
     </ol>
     <div class="cta-actions lp-actions">
-      <a class="btn btn-primary" href="../#booking">Записаться онлайн</a>
+      <a class="btn btn-primary" href="../?service=evening#booking">Записаться онлайн</a>
       <a class="btn btn-ghost" href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
         <svg class="btn-icon" aria-hidden="true"><use href="#icon-telegram"></use></svg>
         Написать в Telegram
@@ -249,24 +255,15 @@
 </main>
 
 <footer class="site-footer">
-  <div class="footer-social-strip">
-    <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
-      <span class="eyebrow">Instagram*</span>
-      <img width="760" height="1351" loading="lazy" decoding="async" src="../images/portfolio/wedding-real.jpg" style="--pos:50% 15%" alt="">
-    </a>
-    <a href="https://t.me/NastyaKurdyumova" target="_blank" rel="noopener">
-      <span class="eyebrow">Telegram</span>
-      <img width="760" height="1013" loading="lazy" decoding="async" src="../images/portfolio/evening-real.jpg" style="--pos:50% 20%" alt="">
-    </a>
-    <a href="https://max.ru/u/f9LHodD0cOLhBi33fNEzJmTGlc65yzBXT4VLQVfNH84oaL1QS9gwJpnKSuc" target="_blank" rel="noopener">
-      <span class="eyebrow">MAX</span>
-      <img width="760" height="1351" loading="lazy" decoding="async" src="../images/portfolio/hair-real.jpg" style="--pos:50% 36%" alt="">
-    </a>
-    <a href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
-      <span class="eyebrow">Работы</span>
-      <img width="760" height="1351" loading="lazy" decoding="async" src="../images/portfolio/day-real.jpg" style="--pos:50% 17%" alt="">
-    </a>
-  </div>
+  <!-- Полоса работ — одна ссылка на ленту. Подписи каналов на лицах клиенток
+       читались странно, а сами каналы есть строкой ниже. -->
+  <a class="footer-social-strip" href="https://www.instagram.com/anastasia.kurdumova/" target="_blank" rel="noopener">
+    <span class="footer-strip-label">Больше работ в Instagram* →</span>
+    <img width="760" height="1351" loading="lazy" decoding="async" srcset="../images/portfolio/sm/wedding-real.jpg 400w, ../images/portfolio/wedding-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="../images/portfolio/wedding-real.jpg" style="--pos:50% 15%" alt="">
+    <img width="760" height="1013" loading="lazy" decoding="async" srcset="../images/portfolio/sm/evening-real.jpg 400w, ../images/portfolio/evening-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="../images/portfolio/evening-real.jpg" style="--pos:50% 20%" alt="">
+    <img width="760" height="1351" loading="lazy" decoding="async" srcset="../images/portfolio/sm/hair-real.jpg 400w, ../images/portfolio/hair-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="../images/portfolio/hair-real.jpg" style="--pos:50% 36%" alt="">
+    <img width="760" height="1351" loading="lazy" decoding="async" srcset="../images/portfolio/sm/day-real.jpg 400w, ../images/portfolio/day-real.jpg 760w" sizes="(max-width: 560px) 50vw, 25vw" src="../images/portfolio/day-real.jpg" style="--pos:50% 17%" alt="">
+  </a>
 
   <div class="container footer-inner">
     <div class="footer-brand">
