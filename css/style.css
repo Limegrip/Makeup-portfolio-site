@@ -217,7 +217,7 @@ section { padding: 5rem 0; }
 }
 @media (max-width: 560px) {
   .fact-strip-inner { grid-template-columns: minmax(0, 1fr); }
-  .fact-strip-inner span { border-left: 0; white-space: normal; }
+  .fact-strip-inner span, .fact-strip-inner span + span { border-left: 0; white-space: normal; }
 }
 
 /* About */
@@ -799,10 +799,9 @@ section { padding: 5rem 0; }
   .footer-nav { display: none; }
 }
 
-@media (max-width: 760px) {
-  .rv-slide.has-text { grid-template-columns: 320px; }
-  .rv-nav { display: none; }
-  .testimonial-text { font-size: 1.12rem; text-align: center; }
+/* Меню-бургер включается раньше остальной мобильной вёрстки: шапке с шестью пунктами
+   и иконками нужно ~950px, и на планшетах (761–1000) иконки обрезались, а «Обо мне» переносилось. */
+@media (max-width: 1000px) {
   .nav {
     position: fixed;
     top: 64px;
@@ -826,6 +825,12 @@ section { padding: 5rem 0; }
   .header-actions { display: none; }
   /* 44px для пальца; отрицательный margin — чтобы шапка не стала выше (меню выезжает от 64px) */
   .burger { display: flex; width: 44px; height: 44px; margin: -6px -8px -6px 0; justify-content: center; align-items: center; }
+}
+
+@media (max-width: 760px) {
+  .rv-slide.has-text { grid-template-columns: 320px; }
+  .rv-nav { display: none; }
+  .testimonial-text { font-size: 1.12rem; text-align: center; }
   /* палец — минимум 44px по высоте; на десктопе чипы остаются компактными */
   .pf-filters button { min-height: 44px; }
   section { padding: 3.2rem 0; }
