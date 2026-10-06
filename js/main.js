@@ -38,13 +38,29 @@ const revealSel = [
   '.lp-section > :not(.lp-related, .lp-gallery)', '.lp-related a', '.lp-gallery > *', '.lp-cta > *',
   '.footer-social-strip'
 ].join(',');
+// Карточка портфолио открывается, когда её кадр уже загружен: иначе шторка открывала
+// пустую заглушку, и фото выстреливало позже. Дольше 1,2 с не ждём — на плохом
+// интернете лучше заглушка, чем пустое место. new Image — тот же запрос, из кэша.
+const mediaReady = card => {
+  const media = card.querySelector('.is-active, img, video');
+  const src = media?.tagName === 'VIDEO' ? media.poster || media.dataset.poster : media?.currentSrc || media?.src;
+  if (!src) return Promise.resolve();
+  const img = new Image();
+  img.src = src;
+  return Promise.race([img.decode().catch(() => {}), new Promise(r => setTimeout(r, 1200))]);
+};
 if (!reduceMotion.matches && 'IntersectionObserver' in window) {
   const io = new IntersectionObserver(entries => {
     let i = 0;
     entries.forEach(({ isIntersecting, target }) => {
       if (!isIntersecting) return;
-      target.style.animationDelay = `${Math.min(i++, 5) * 90}ms`;
-      target.classList.add('is-in');
+      const delay = `${Math.min(i++, 5) * 90}ms`;
+      const show = () => {
+        target.style.animationDelay = delay;
+        target.classList.add('is-in');
+      };
+      if (target.matches('.portfolio-item')) mediaReady(target).then(show);
+      else show();
       io.unobserve(target);
     });
   }, { rootMargin: '0px 0px -8% 0px' });
@@ -120,23 +136,38 @@ if (pfChips.length) {
     category: el.dataset.category || ''
   }));
 
+  const markChips = filter => pfChips.forEach(chip => {
+    const on = chip.dataset.filter === filter;
+    chip.classList.toggle('is-active', on);
+    chip.setAttribute('aria-pressed', on);
+  });
   const applyFilter = filter => {
     pfItems.forEach(({ el, category }) => {
       el.hidden = filter !== 'all' && category !== filter;
     });
-    pfChips.forEach(chip => {
-      const on = chip.dataset.filter === filter;
-      chip.classList.toggle('is-active', on);
-      chip.setAttribute('aria-pressed', on);
-    });
+    markChips(filter);
   };
 
   // Карточки перестраиваются плавно (View Transitions). Имена — только на время перехода:
   // иначе 24 карточки участвовали бы и в переходе между страницами.
   // Карточки, ещё не проявившиеся при прокрутке, показываем сразу — иначе в переходе они пустые.
-  const filterSmoothly = filter => {
+  // Скрытые фильтром карточки не загружены: их обложки грузим по нажатию и меняем
+  // карточки, когда готовы первые четыре (не дольше 0,6 с), — иначе они въезжали пустыми.
+  // Чип переключаем сразу, чтобы нажатие не казалось потерянным.
+  let pfRun = 0;
+  const filterSmoothly = async filter => {
     pfItems.forEach(({ el }) => el.classList.remove('reveal'));
     if (!document.startViewTransition || reduceMotion.matches) return applyFilter(filter);
+    const run = ++pfRun;
+    markChips(filter);
+    const shown = pfItems.filter(({ category }) => filter === 'all' || category === filter).map(({ el }) => el);
+    shown.forEach(card => {
+      const cover = card.querySelector('img, video');
+      if (cover.tagName === 'IMG') cover.loading = 'eager';
+      else if (cover.dataset.poster) cover.poster = cover.dataset.poster;
+    });
+    await Promise.race([Promise.all(shown.slice(0, 4).map(mediaReady)), new Promise(r => setTimeout(r, 600))]);
+    if (run !== pfRun) return;   // пока ждали, нажали другой фильтр
     pfItems.forEach(({ el }, i) => { el.style.viewTransitionName = `pf-${i}`; });
     document.startViewTransition(() => applyFilter(filter)).finished.finally(() => {
       pfItems.forEach(({ el }) => { el.style.viewTransitionName = ''; });
@@ -191,6 +222,7 @@ if (rvCarousel) {
 
 // Постеры видео: атрибут poster не умеет loading="lazy", поэтому подставляем
 // его сами, когда карточка подходит к экрану. Иначе 24 постера тянутся сразу.
+// Запас — полтора экрана: с меньшим обложка начинала грузиться почти в момент показа.
 const lazyPosters = document.querySelectorAll('video[data-poster]');
 if (lazyPosters.length) {
   const io = new IntersectionObserver((entries, obs) => {
@@ -199,9 +231,10 @@ if (lazyPosters.length) {
       target.poster = target.dataset.poster;
       obs.unobserve(target);
     });
-  }, { rootMargin: '400px' });
+  }, { rootMargin: '1500px 0px' });
   lazyPosters.forEach(v => io.observe(v));
 }
+
 
 // Своя кнопка ▶ вместо системного плеера: полоска «0:00» и громкость на обложке
 // выглядят дешевле самих кадров. Плеер включается по первому нажатию.

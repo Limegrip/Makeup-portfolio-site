@@ -420,7 +420,7 @@ section { padding: 5rem 0; }
   aspect-ratio: 9/16;
   object-fit: cover;
   display: block;
-  background: var(--brown-dark);
+  background: var(--border);   /* светлая заглушка до загрузки кадра: тёмная вспыхивала при смене на фото */
 }
 .portfolio-item figcaption {
   padding: 0.8rem 1rem;
