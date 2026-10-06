@@ -562,18 +562,23 @@ section { padding: 5rem 0; }
 .site-footer { background: var(--brown-dark); color: var(--cream); border-top: 1px solid rgba(255,255,255,0.1); }
 .footer-social-strip {
   position: relative;
+  overflow: hidden;   /* приближение кадров при наведении не вылезает за полосу */
   display: grid;
   grid-template-columns: repeat(4, minmax(0,1fr));
 }
-.footer-social-strip img { width: 100%; height: 100%; aspect-ratio: 1/1; object-fit: cover; filter: grayscale(60%) brightness(0.75); transition: filter 0.2s ease; }
-@media (hover: hover) { .footer-social-strip:hover img { filter: grayscale(0%) brightness(0.9); } }
-/* Затемнение снизу: подпись стоит на светлых кадрах (белое платье) и терялась. */
+/* Кадры сразу цветные — без обесцвечивания и затемнения. */
+.footer-social-strip img { width: 100%; height: 100%; aspect-ratio: 1/1; object-fit: cover; transition: transform 0.4s var(--ease-out); }
+@media (hover: hover) { .footer-social-strip:hover img { transform: scale(1.04); } }
+/* Тень только под подписью (первый кадр): белый текст не теряется на светлом платье,
+   остальные кадры не притемняются. */
 .footer-social-strip::after {
   content: "";
   position: absolute;
-  inset: auto 0 0 0;
-  height: 35%;
-  background: linear-gradient(transparent, rgba(36, 26, 18, 0.75));
+  left: 0;
+  bottom: 0;
+  width: 25%;
+  height: 28%;
+  background: linear-gradient(transparent, rgba(36, 26, 18, 0.6));
   pointer-events: none;
 }
 .footer-strip-label {
@@ -845,6 +850,7 @@ section { padding: 5rem 0; }
 @media (max-width: 560px) {
   .portfolio-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .footer-social-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .footer-social-strip::after { width: 50%; height: 16%; }   /* два кадра в ряд, подпись под левым нижним */
   .hero-actions .btn { width: 100%; justify-content: center; }
   .bk-fields { grid-template-columns: minmax(0, 1fr); }
   .bk-submit, .cta-actions .btn { width: 100%; justify-content: center; }
@@ -855,5 +861,5 @@ section { padding: 5rem 0; }
   /* Плавная прокрутка и выезд слайда отзывов — тоже движение, которое просили выключить. */
   html { scroll-behavior: auto; }
   .rv-slide { animation: none; }
-  .service-row > *, .header-actions a, .pi-play { transform: none !important; }
+  .service-row > *, .header-actions a, .pi-play, .footer-social-strip img { transform: none !important; }
 }
