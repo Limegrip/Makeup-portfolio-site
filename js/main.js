@@ -26,6 +26,36 @@ if (burger && nav) {
 
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
+// Блоки мягко всплывают, когда до них доходит прокрутка. Только те, что ниже первого
+// экрана при загрузке: уже видимое не прячем, иначе оно мигнёт. Вложенные цели
+// не берём — всплывает внешний блок целиком. Пришедшие вместе идут по очереди.
+const revealSel = [
+  '.eyebrow', '.section-title', '.section-sub',
+  '.portfolio-banner > *', '.about-media', '.about-text > *',
+  '.service-row', '.services-more', '.price-col', '.portfolio-item',
+  '.why-media', '.why-text > :not(.why-list)', '.why-item',
+  '.reviews .container > *', '.booking .container > *', '.cta .container > *',
+  '.lp-section > :not(.lp-related, .lp-gallery)', '.lp-related a', '.lp-gallery > *', '.lp-cta > *',
+  '.footer-social-strip'
+].join(',');
+if (!reduceMotion.matches && 'IntersectionObserver' in window) {
+  const io = new IntersectionObserver(entries => {
+    let i = 0;
+    entries.forEach(({ isIntersecting, target }) => {
+      if (!isIntersecting) return;
+      target.style.animationDelay = `${Math.min(i++, 5) * 90}ms`;
+      target.classList.add('is-in');
+      io.unobserve(target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll(revealSel).forEach(el => {
+    if (el.parentElement.closest(`${revealSel}, .hero, .lp-hero`)) return;
+    if (el.getBoundingClientRect().top < innerHeight) return;
+    el.classList.add('reveal');
+    io.observe(el);
+  });
+}
+
 // Карусель в карточках портфолио: кадры одного человека лежат в одном боксе.
 // Видео всегда последнее в стопке — на нём автопролистывание останавливается,
 // чтобы кадр не уезжал, пока человек собирается нажать play.
@@ -101,7 +131,19 @@ if (pfChips.length) {
     });
   };
 
-  pfChips.forEach(chip => chip.addEventListener('click', () => applyFilter(chip.dataset.filter)));
+  // Карточки перестраиваются плавно (View Transitions). Имена — только на время перехода:
+  // иначе 24 карточки участвовали бы и в переходе между страницами.
+  // Карточки, ещё не проявившиеся при прокрутке, показываем сразу — иначе в переходе они пустые.
+  const filterSmoothly = filter => {
+    pfItems.forEach(({ el }) => el.classList.remove('reveal'));
+    if (!document.startViewTransition || reduceMotion.matches) return applyFilter(filter);
+    pfItems.forEach(({ el }, i) => { el.style.viewTransitionName = `pf-${i}`; });
+    document.startViewTransition(() => applyFilter(filter)).finished.finally(() => {
+      pfItems.forEach(({ el }) => { el.style.viewTransitionName = ''; });
+    });
+  };
+
+  pfChips.forEach(chip => chip.addEventListener('click', () => filterSmoothly(chip.dataset.filter)));
 
   // Строки в «Услугах» ведут в портфолио с уже включённым фильтром.
   document.querySelectorAll('.service-row[data-filter]').forEach(row => {
