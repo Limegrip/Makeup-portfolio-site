@@ -533,6 +533,9 @@ section { padding: 5rem 0; }
   animation: rv-in 0.45s var(--ease-out);
 }
 .rv-slide.has-text { grid-template-columns: 320px minmax(0, 34em); }
+/* Слайд из коротких отзывов: высотой с историю 9:16, чтобы секция не прыгала при листании. */
+.rv-slide.rv-quotes { grid-template-columns: minmax(0, 36em); min-height: calc(320px * 16 / 9); align-content: center; gap: 2rem; }
+.rv-quotes .testimonial-text { font-size: 1.15rem; }
 .rv-slide[hidden] { display: none; }
 @keyframes rv-in { from { opacity: 0; transform: translateY(8px); } }
 .rv-nav {
