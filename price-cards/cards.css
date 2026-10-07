@@ -139,3 +139,38 @@ body {
   color: #9a8874;
   margin: 24px 0 0;
 }
+
+/* Свадебные пакеты: название и цена в одной строке, состав — строками под ней */
+.pkg-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 6px;
+}
+.pkg-head .group-title { border-bottom: 0; margin: 0; }
+.pkg-head .row-price { font-size: 40px; }
+.pkg-list { list-style: none; margin: 0; padding: 0; }
+.pkg-list li {
+  padding: 15px 0 0;
+  font-size: 21px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.pkg-list small {
+  display: block;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--accent);
+  margin-top: 6px;
+}
+/* Карточка, где разделов больше обычного: плотнее отступы, чтобы всё влезло в 1920 */
+.tight .card { padding-top: 60px; padding-bottom: 52px; }
+.tight .mark { margin-bottom: 18px; }
+.tight .body { gap: 30px; padding: 34px 0 30px; }
+.tight .note { line-height: 1.5; }
+.tight .row { padding-top: 13px; }

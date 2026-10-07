@@ -12,7 +12,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const CHROME = process.env.CHROME ||
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const PORT = 9444;
-const CARDS = [['price.html', 'price.jpg'], ['lessons.html', 'lessons.jpg']];
+const CARDS = [['price.html', 'price.jpg'], ['lessons.html', 'lessons.jpg'], ['wedding.html', 'wedding.jpg']];
 
 const profile = mkdtempSync(join(tmpdir(), 'price-cards-'));
 const chrome = spawn(CHROME, [
