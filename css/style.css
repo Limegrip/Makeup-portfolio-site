@@ -518,6 +518,7 @@ section { padding: 5rem 0; }
 .why-num { font-family: var(--serif); font-size: 1.4rem; color: var(--brown-strong); font-weight: 600; font-variant-numeric: tabular-nums; flex: 0 0 1.6em; }
 .why-item h3 { margin: 0 0 0.3rem; font-size: 1.05rem; }
 .why-item p { margin: 0; color: #5a4a3c; font-size: 0.92rem; }
+.why-item p a { color: var(--brown-strong); text-decoration: underline; text-underline-offset: 2px; }
 
 /* Reviews */
 .reviews { background: var(--cream-alt); }
@@ -723,7 +724,36 @@ section { padding: 5rem 0; }
 .lp-gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 20%; border-radius: var(--radius); }
 .lp-gallery figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.4rem; }
 .lp-more { margin-top: 1.5rem; }
-.lp-more a, .lp-steps a, .lp-two a { color: var(--brown-strong); font-weight: 600; text-decoration: underline; }
+.lp-more a, .lp-steps a, .lp-two a, .lp-faq a { color: var(--brown-strong); font-weight: 600; text-decoration: underline; }
+/* Частые вопросы (wedding/): ответ раскрывается по нажатию — <details>, без скриптов. */
+.lp-faq details { border-bottom: 1px solid var(--border); }
+.lp-faq .section-title + details { border-top: 1px solid var(--border); margin-top: 1.2rem; }
+.lp-faq summary {
+  position: relative;
+  padding: 1.1rem 2.4rem 1.1rem 0;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.lp-faq summary::-webkit-details-marker { display: none; }
+.lp-faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 0.2rem;
+  top: 50%;
+  font-family: var(--sans);
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--brown-strong);
+  transform: translateY(-50%);
+  transition: transform 0.35s var(--ease-out);
+}
+.lp-faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+.lp-faq summary:focus-visible { outline: 2px solid var(--brown-strong); outline-offset: 4px; }
+.lp-faq details p { margin: 0 0 1.3rem; max-width: 46em; color: #5a4a3c; }
 .lp .lp-cta { padding-top: 4rem; padding-bottom: 5rem; }
 .lp-steps { padding-left: 1.2rem; color: #5a4a3c; max-width: 640px; }
 .lp-steps li { margin-bottom: 0.6rem; }
@@ -922,4 +952,5 @@ section { padding: 5rem 0; }
   .btn, .nav a::after, .footer-nav a::after { transition: none; }
   @view-transition { navigation: none; }
   .service-row > *, .header-actions a, .pi-play, .footer-social-strip img { transform: none !important; }
+  .lp-faq summary::after { transition: none; }
 }
