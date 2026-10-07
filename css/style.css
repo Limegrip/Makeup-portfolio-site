@@ -709,6 +709,12 @@ section { padding: 5rem 0; }
 /* На страницах услуг колонок прайса две, а не три — без пустой трети справа. */
 .lp .pricing:not(.lp-pricing-one) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .lp .price-col:last-child { grid-column: auto; }
+/* Свадебные пакеты (wedding/): три колонки — название, цена, состав строками. */
+.lp .pricing.lp-packages { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-bottom: 0.6rem; }
+.pkg-price { font-family: var(--serif); font-size: 2rem; font-weight: 600; margin: 0 0 0.7rem; color: var(--cream); }
+.pkg-items { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(255,255,255,0.14); }
+.pkg-items li { padding: 0.62rem 0; border-bottom: 1px solid rgba(255,255,255,0.14); font-size: 0.92rem; }
+.pkg-items small { display: block; margin-top: 0.25rem; font-size: 0.82rem; line-height: 1.5; color: #cbb79a; }
 .lp-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; }
 .lp-gallery figure { margin: 0; }
 .lp-gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 20%; border-radius: var(--radius); }
