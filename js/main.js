@@ -261,3 +261,19 @@ document.querySelectorAll('.portfolio-item video, .testimonial-video video').for
     video.play().catch(() => {});   // не дали запустить — плеер уже показан, нажмут сами
   });
 });
+
+// Переход по ссылке на раздел (#portfolio, #packages, #booking): браузер прокручивает сразу,
+// а шрифты и блоки выше ещё догружаются и меняют высоту — раздел уезжал под шапку или вниз.
+// Пока страница достраивается, после каждого изменения высоты доводим раздел на место.
+// Человек сам начал листать — больше не трогаем.
+const hashTarget = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+if (hashTarget) {
+  let userMoved = false;
+  ['wheel', 'touchstart', 'keydown'].forEach(type =>
+    addEventListener(type, () => { userMoved = true; }, { once: true, passive: true }));
+  const settle = new ResizeObserver(() => {
+    if (!userMoved) hashTarget.scrollIntoView({ behavior: 'instant', block: 'start' });
+  });
+  settle.observe(document.body);
+  setTimeout(() => settle.disconnect(), 4000);
+}
